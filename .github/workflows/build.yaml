@@ -32,4 +32,7 @@ jobs:
           overwrite-settings: false
 
       - name: Build and test
-        run: mvn clean install --settings ./.github/settings.xml
+        run: >
+          mvn clean install
+          --settings ./.github/settings.xml
+          --no-transfer-progress -B
