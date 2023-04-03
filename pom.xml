@@ -25,6 +25,12 @@
         <junit.jupiter.engine.version>5.9.2</junit.jupiter.engine.version>
     </properties>
 
+    <scm>
+        <connection>scm:git:https://github.com/navikt/eux-relaterte-rinasaker.git</connection>
+        <developerConnection>scm:git:https://github.com/navikt/eux-relaterte-rinasaker.git</developerConnection>
+        <url>https://github.com/navikt/eux-relaterte-rinasaker.git</url>
+    </scm>
+
     <dependencyManagement>
         <dependencies>
             <dependency>
@@ -54,4 +60,22 @@
         </dependencies>
     </dependencyManagement>
 
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>no.nav.eux.versions</groupId>
+                    <artifactId>eux-versions-maven-plugin</artifactId>
+                    <version>0.0.2</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-scm-plugin</artifactId>
+                    <configuration>
+                        <tag>${project.artifactId}-${project.version}</tag>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
 </project>
