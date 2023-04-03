@@ -51,11 +51,4 @@ spec:
         - "{{ INGRESS2 }}/callback"
         - "{{ INGRESS3 }}/callback"
         - "{{ INGRESS4 }}/callback"
-  vault:
-    enabled: true
-    paths:
-      - kvPath: {{ SERVICEUSER }}
-        mountPath: /var/run/secrets/nais.io/srveux-app
-      - kvPath: {{ KEYVALUE }}
-        mountPath: /var/run/secrets/nais.io/vault
   webproxy: true
