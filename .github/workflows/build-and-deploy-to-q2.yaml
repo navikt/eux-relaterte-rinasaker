@@ -53,7 +53,7 @@ jobs:
       - name: Extract New Version
         id: versions
         run: >
-          echo "version=$(mvn -q --settings ./.github/settings.xml 
+          echo "version=$(mvn -q --no-transfer-progress --settings ./.github/settings.xml 
           -Dexec.executable=echo -Dexec.args='${project.version}' --non-recursive exec:exec)" >> $GITHUB_OUTPUT
 
       - name: Set Image Name
@@ -62,7 +62,9 @@ jobs:
 
       - name: Test and build
         run: >
-          mvn clean package scm:tag -B -e -U --settings ./.github/settings.xml
+          mvn clean package scm:tag -B -e -U 
+          --settings ./.github/settings.xml
+          --no-transfer-progress
 
       - name: Build docker image
         run: >
@@ -102,15 +104,12 @@ jobs:
           echo "INGRESS4=https://eux-helloeu-app-q2.dev.intern.nav.no" >> $GITHUB_ENV
           echo "SERVICEUSER=/serviceuser/data/dev/srveux-app" >> $GITHUB_ENV
           echo "KEYVALUE=/kv/preprod/fss/${{ env.APP_NAME }}-q2/eessibasis" >> $GITHUB_ENV
-          echo "RINA_CREDENTIAL_KV=- kvPath: /credential/data/dev/rina_cpi_jwt" >> $GITHUB_ENV
-          echo "RINA_CREDENTIAL_MOUNT=mountPath: /var/run/secrets/nais.io/rina_cpi_jwt" >> $GITHUB_ENV
-          echo "VARS_FILE=vars-q.yaml" >> $GITHUB_ENV
       - name: 'Calling deploy action (eessibasis namespace)'
         uses: nais/deploy/actions/deploy@v1
         env:
           APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
           CLUSTER: ${{ env.CLUSTER }}
-          RESOURCE: ./deploy/nais.yaml
+          RESOURCE: ./nais/nais.yaml
           VAR: "SPRING_PROFILE=${{ env.SPRING_PROFILE }},\
             NAME=${{ env.NAME }},\
             IMAGE=${{ needs.build.outputs.docker-image }},\
@@ -119,8 +118,5 @@ jobs:
             INGRESS3=${{ env.INGRESS3 }},\
             INGRESS4=${{ env.INGRESS4 }},\
             SERVICEUSER=${{ env.SERVICEUSER }},\
-            KEYVALUE=${{ env.KEYVALUE }},\
-            RINA_CREDENTIAL_KV=${{ env.RINA_CREDENTIAL_KV }},\
-            RINA_CREDENTIAL_MOUNT=${{ env.RINA_CREDENTIAL_MOUNT }}"
-          VARS: deploy/${{ env.VARS_FILE }}
+            KEYVALUE=${{ env.KEYVALUE }}"
           PRINT_PAYLOAD: true
