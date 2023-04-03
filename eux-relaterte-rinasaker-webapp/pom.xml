@@ -32,6 +32,12 @@
             <artifactId>kotlin-stdlib</artifactId>
         </dependency>
 
+        <!-- Other -->
+        <dependency>
+            <groupId>io.micrometer</groupId>
+            <artifactId>micrometer-registry-prometheus</artifactId>
+        </dependency>
+
         <!-- Test -->
         <dependency>
             <groupId>org.jetbrains.kotlin</groupId>

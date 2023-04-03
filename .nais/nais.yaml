@@ -1,0 +1,62 @@
+---
+kind: Application
+apiVersion: nais.io/v1alpha1
+metadata:
+  name: {{ NAME }}
+  namespace: eessibasis
+  labels:
+    team: eessibasis
+spec:
+  env:
+    - name: SPRING_PROFILES_ACTIVE
+      value: {{ SPRING_PROFILE }}
+    - name: EUX_NEESSI_URL
+      value: {{ INGRESS }}
+  image: {{ IMAGE }}
+  ingresses:
+    - {{ INGRESS }}
+    - {{ INGRESS2 }}
+    - {{ INGRESS3 }}
+    - {{ INGRESS4 }}
+  liveness:
+    path: /actuator/health
+    port: 8080
+    initialDelay: 60
+    timeout: 2
+  port: 8080
+  prometheus:
+    enabled: true
+    path: /actuator/prometheus
+  readiness:
+    path: /actuator/health
+    port: 8080
+    initialDelay: 60
+    timeout: 2
+  replicas:
+    min: 1
+    max: 1
+    cpuThresholdPercentage: 80
+  resources:
+    limits:
+      cpu: "1"
+      memory: 3072Mi
+    requests:
+      cpu: 200m
+      memory: 2048Mi
+  progressDeadlineSeconds: 120
+  azure:
+    application:
+      enabled: true
+      replyURLs:
+        - "{{ INGRESS }}/callback"
+        - "{{ INGRESS2 }}/callback"
+        - "{{ INGRESS3 }}/callback"
+        - "{{ INGRESS4 }}/callback"
+  vault:
+    enabled: true
+    paths:
+      - kvPath: {{ SERVICEUSER }}
+        mountPath: /var/run/secrets/nais.io/srveux-app
+      - kvPath: {{ KEYVALUE }}
+        mountPath: /var/run/secrets/nais.io/vault
+  webproxy: true
