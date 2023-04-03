@@ -1,0 +1,60 @@
+name: Deploy to production
+run-name: Deploy version ${{ github.event.inputs.version }} to NAIS, prod-fss, production
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'New version to deploy'
+        required: true
+      environment:
+        description: 'Type prod'
+        required: true
+
+env:
+  APP_NAME: eux-relaterte-rinasaker
+  IMAGE: docker.pkg.github.com/${{ github.repository }}/eux-relaterte-rinasaker
+  READER_TOKEN: ${{ secrets.READER_TOKEN }}
+
+jobs:
+  deploy:
+    name: 'Deploy to NAIS'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: 'Deploy to production'
+        if: github.event.inputs.environment == 'prod'
+        run: |
+          echo "DOCKER_IMAGE=${{ env.IMAGE }}:${{ github.event.inputs.version }}" >> $GITHUB_ENV
+          echo "CLUSTER=prod-fss" >> $GITHUB_ENV
+          echo "NAME=${{ env.APP_NAME }}" >> $GITHUB_ENV
+          echo "SPRING_PROFILE=default" >> $GITHUB_ENV
+          echo "INGRESS=https://eux-relaterte-rinasaker.nais.adeo.no" >> $GITHUB_ENV
+          echo "INGRESS2=https://${{ env.APP_NAME }}.intern.nav.no" >> $GITHUB_ENV
+          echo "INGRESS3=https://${{ env.APP_NAME }}.nais.adeo.no" >> $GITHUB_ENV
+          echo "INGRESS4=https://eux-relaterte-rinasaker.intern.nav.no" >> $GITHUB_ENV
+          echo "SERVICEUSER=/serviceuser/data/prod/srveux-app" >> $GITHUB_ENV
+          echo "KEYVALUE=/kv/prod/fss/${{ env.APP_NAME }}/eessibasis" >> $GITHUB_ENV
+          echo "VARS_FILE=vars-p.yaml" >> $GITHUB_ENV
+
+      - name: 'Calling deploy action (eessibasis namespace)'
+        if: github.event.inputs.environment == 'prod'
+        uses: nais/deploy/actions/deploy@v1
+        env:
+          APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
+          CLUSTER: ${{ env.CLUSTER }}
+          RESOURCE: ./deploy/nais.yaml
+          VAR: "SPRING_PROFILE=${{ env.SPRING_PROFILE }},\
+            NAME=${{ env.NAME }},\
+            IMAGE=${{ env.DOCKER_IMAGE }},\
+            INGRESS=${{ env.INGRESS }},\
+            INGRESS2=${{ env.INGRESS2 }},\
+            INGRESS3=${{ env.INGRESS3 }},\
+            INGRESS4=${{ env.INGRESS4 }},\
+            SERVICEUSER=${{ env.SERVICEUSER }},\
+            KEYVALUE=${{ env.KEYVALUE }},\
+            RINA_CREDENTIAL_KV=${{ env.RINA_CREDENTIAL_KV }},\
+            RINA_CREDENTIAL_MOUNT=${{ env.RINA_CREDENTIAL_MOUNT }}"
+          VARS: deploy/${{ env.VARS_FILE }}
+          PRINT_PAYLOAD: true

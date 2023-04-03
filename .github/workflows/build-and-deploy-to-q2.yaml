@@ -1,0 +1,126 @@
+name: Build and deploy to q2
+run-name: Deploy [${{ github.ref_name }}] to NAIS, dev-fss, q2
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'New version number, leave blank for auto increment.'
+        required: false
+        default: ''
+
+env:
+  APP_NAME: eux-relaterte-rinasaker
+  IMAGE: docker.pkg.github.com/${{ github.repository }}/eux-relaterte-rinasaker
+  READER_TOKEN: ${{ secrets.READER_TOKEN }}
+
+jobs:
+  build:
+    name: 'Build Docker Image'
+    runs-on: ubuntu-latest
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Setup Maven
+        uses: actions/cache@v3
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+            ${{ runner.os }}-maven-
+
+      - name: Setup Git User
+        uses: fregante/setup-git-user@v2
+
+      - name: Set Next Version
+        run: >
+          mvn eux-versions:set-next -B -e -U --settings ./.github/settings.xml
+          -DnewVersion=${{ github.event.inputs.version }}
+          --no-transfer-progress
+
+      - name: Extract New Version
+        id: versions
+        run: >
+          echo "version=$(mvn -q --settings ./.github/settings.xml 
+          -Dexec.executable=echo -Dexec.args='${project.version}' --non-recursive exec:exec)" >> $GITHUB_OUTPUT
+
+      - name: Set Image Name
+        run: >
+          echo "DOCKER_IMAGE=${IMAGE}:${{ steps.versions.outputs.version }}" >> $GITHUB_ENV
+
+      - name: Test and build
+        run: >
+          mvn clean package scm:tag -B -e -U --settings ./.github/settings.xml
+
+      - name: Build docker image
+        run: >
+          docker build -t ${IMAGE}:${{ steps.versions.outputs.version }} .
+
+      - name: Login to Github Package Registry
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: >
+          docker login docker.pkg.github.com -u ${GITHUB_REPOSITORY} -p ${GITHUB_TOKEN}
+
+      - name: Push Docker image
+        run: >
+          docker push ${IMAGE}:${{ steps.versions.outputs.version }}
+
+      - name: Echo Version
+        run: echo "### Version ${{ steps.versions.outputs.version }}" >> $GITHUB_STEP_SUMMARY
+
+    outputs:
+      docker-image: >
+        ${{ env.IMAGE }}:${{ steps.versions.outputs.version }}
+
+  deploy:
+    name: 'Deploy to NAIS'
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - uses: actions/checkout@v3
+      - name: 'Deploy to q2'
+        run: |
+          echo "CLUSTER=dev-fss" >> $GITHUB_ENV
+          echo "NAME=eux-relaterte-rinasaker-q2" >> $GITHUB_ENV
+          echo "SPRING_PROFILE=q2" >> $GITHUB_ENV
+          echo "INGRESS=https://${{ env.APP_NAME }}-q2.dev.intern.nav.no" >> $GITHUB_ENV
+          echo "INGRESS2=https://${{ env.APP_NAME }}-q2-eessibasis.dev.intern.nav.no" >> $GITHUB_ENV
+          echo "INGRESS3=https://eux-helloeu-app-q2.nais.preprod.local" >> $GITHUB_ENV
+          echo "INGRESS4=https://eux-helloeu-app-q2.dev.intern.nav.no" >> $GITHUB_ENV
+          echo "SERVICEUSER=/serviceuser/data/dev/srveux-app" >> $GITHUB_ENV
+          echo "KEYVALUE=/kv/preprod/fss/${{ env.APP_NAME }}-q2/eessibasis" >> $GITHUB_ENV
+          echo "RINA_CREDENTIAL_KV=- kvPath: /credential/data/dev/rina_cpi_jwt" >> $GITHUB_ENV
+          echo "RINA_CREDENTIAL_MOUNT=mountPath: /var/run/secrets/nais.io/rina_cpi_jwt" >> $GITHUB_ENV
+          echo "VARS_FILE=vars-q.yaml" >> $GITHUB_ENV
+      - name: 'Calling deploy action (eessibasis namespace)'
+        uses: nais/deploy/actions/deploy@v1
+        env:
+          APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
+          CLUSTER: ${{ env.CLUSTER }}
+          RESOURCE: ./deploy/nais.yaml
+          VAR: "SPRING_PROFILE=${{ env.SPRING_PROFILE }},\
+            NAME=${{ env.NAME }},\
+            IMAGE=${{ needs.build.outputs.docker-image }},\
+            INGRESS=${{ env.INGRESS }},\
+            INGRESS2=${{ env.INGRESS2 }},\
+            INGRESS3=${{ env.INGRESS3 }},\
+            INGRESS4=${{ env.INGRESS4 }},\
+            SERVICEUSER=${{ env.SERVICEUSER }},\
+            KEYVALUE=${{ env.KEYVALUE }},\
+            RINA_CREDENTIAL_KV=${{ env.RINA_CREDENTIAL_KV }},\
+            RINA_CREDENTIAL_MOUNT=${{ env.RINA_CREDENTIAL_MOUNT }}"
+          VARS: deploy/${{ env.VARS_FILE }}
+          PRINT_PAYLOAD: true
