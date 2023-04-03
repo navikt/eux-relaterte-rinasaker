@@ -9,7 +9,7 @@ spec:
   env:
     - name: SPRING_PROFILES_ACTIVE
       value: {{ SPRING_PROFILE }}
-    - name: EUX_NEESSI_URL
+    - name: EUX_RELATERTE_RINASAKER_URL
       value: {{ INGRESS }}
   image: {{ IMAGE }}
   ingresses:
