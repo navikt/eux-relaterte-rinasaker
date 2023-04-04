@@ -14,6 +14,11 @@ spec:
   image: {{ IMAGE }}
   ingresses:
     - {{ INGRESS }}
+  gcp:
+    sqlInstances:
+      - type: POSTGRES_14
+        databases:
+          - name: eux_relaterte_rinasaker_db
   liveness:
     path: /actuator/health
     port: 8080
