@@ -1,5 +1,5 @@
 name: Build and deploy to q2
-run-name: Deploy [${{ github.ref_name }}] to NAIS, dev-fss, q2
+run-name: Deploy [${{ github.ref_name }}] to NAIS, dev-gcp, q2
 
 on:
   workflow_dispatch:
