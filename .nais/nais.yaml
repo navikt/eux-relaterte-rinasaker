@@ -14,9 +14,6 @@ spec:
   image: {{ IMAGE }}
   ingresses:
     - {{ INGRESS }}
-    - {{ INGRESS2 }}
-    - {{ INGRESS3 }}
-    - {{ INGRESS4 }}
   liveness:
     path: /actuator/health
     port: 8080
@@ -48,7 +45,3 @@ spec:
       enabled: true
       replyURLs:
         - "{{ INGRESS }}/callback"
-        - "{{ INGRESS2 }}/callback"
-        - "{{ INGRESS3 }}/callback"
-        - "{{ INGRESS4 }}/callback"
-  webproxy: true

@@ -95,15 +95,11 @@ jobs:
       - uses: actions/checkout@v3
       - name: 'Deploy to q2'
         run: |
-          echo "CLUSTER=dev-fss" >> $GITHUB_ENV
+          echo "CLUSTER=dev-gcp" >> $GITHUB_ENV
           echo "NAME=eux-relaterte-rinasaker-q2" >> $GITHUB_ENV
           echo "SPRING_PROFILE=q2" >> $GITHUB_ENV
           echo "INGRESS=https://${{ env.APP_NAME }}-q2.dev.intern.nav.no" >> $GITHUB_ENV
-          echo "INGRESS2=https://${{ env.APP_NAME }}-q2-eessibasis.dev.intern.nav.no" >> $GITHUB_ENV
-          echo "INGRESS3=https://eux-relaterte-rinasaker-q2.nais.preprod.local" >> $GITHUB_ENV
-          echo "INGRESS4=https://eux-relaterte-rinasaker-q2.dev.intern.nav.no" >> $GITHUB_ENV
           echo "SERVICEUSER=/serviceuser/data/dev/srveux-app" >> $GITHUB_ENV
-          echo "KEYVALUE=/kv/preprod/fss/${{ env.APP_NAME }}-q2/eessibasis" >> $GITHUB_ENV
       - name: 'Calling deploy action (eessibasis namespace)'
         uses: nais/deploy/actions/deploy@v1
         env:
@@ -114,9 +110,5 @@ jobs:
             NAME=${{ env.NAME }},\
             IMAGE=${{ needs.build.outputs.docker-image }},\
             INGRESS=${{ env.INGRESS }},\
-            INGRESS2=${{ env.INGRESS2 }},\
-            INGRESS3=${{ env.INGRESS3 }},\
-            INGRESS4=${{ env.INGRESS4 }},\
-            SERVICEUSER=${{ env.SERVICEUSER }},\
-            KEYVALUE=${{ env.KEYVALUE }}"
+            SERVICEUSER=${{ env.SERVICEUSER }}"
           PRINT_PAYLOAD: true
