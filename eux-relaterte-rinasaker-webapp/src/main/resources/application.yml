@@ -1,2 +1,2 @@
 datasource:
-  hostname: ${NAIS_DATABASE_MYAPP_eux-relaterte-rinasaker-db_HOST:localhost}
+  hostname: ${NAIS_DATABASE_MYAPP_EUX-RELATERTE-RINASAKER-DB_HOST:localhost}
