@@ -19,7 +19,9 @@ spec:
       - type: POSTGRES_14
         cascadingDelete: true
         databases:
-          - name: eux-relaterte-rinasaker-db
+          - name: db
+            envVarPrefix:
+              DATABASE
   liveness:
     path: /actuator/health
     port: 8080
