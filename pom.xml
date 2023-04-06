@@ -24,6 +24,7 @@
         <kotlin.compiler.jvmTarget>17</kotlin.compiler.jvmTarget>
         <junit.jupiter.engine.version>5.9.2</junit.jupiter.engine.version>
         <hikaricp.version>5.0.1</hikaricp.version>
+        <postgresql.version>42.6.0</postgresql.version>
     </properties>
 
     <scm>
@@ -46,6 +47,12 @@
                 <artifactId>HikariCP</artifactId>
                 <version>${hikaricp.version}</version>
             </dependency>
+            <dependency>
+                <groupId>org.postgresql</groupId>
+                <artifactId>postgresql</artifactId>
+                <version>${postgresql.version}</version>
+            </dependency>
+
             <dependency>
                 <groupId>org.jetbrains.kotlin</groupId>
                 <artifactId>kotlin-stdlib</artifactId>
