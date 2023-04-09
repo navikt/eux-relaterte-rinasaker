@@ -1,0 +1,5 @@
+relaterteRinasakerId:
+  type: string
+  format: uuid
+  description: >
+    Unique id

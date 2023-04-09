@@ -1,0 +1,22 @@
+RelaterteRinasakType:
+  type: object
+  required:
+    - relaterteRinasakerId
+  properties:
+    relaterteRinasakerId:
+      $ref: '../properties/relaterte-rinasaker.yaml#/relaterteRinasakerId'
+
+RelaterteRinasakSearchCriteriaType:
+  type: object
+  properties:
+    fraOpprettetDato:
+      $ref: '../properties/meta.yaml#/opprettetDato'
+    tilOpprettetDato:
+      $ref: '../properties/meta.yaml#/opprettetDato'
+
+RelaterteRinasakerCreateType:
+    type: array
+    minItems: 1
+    maxItems: 500
+    items:
+      $ref: '#/RelaterteRinasakType'

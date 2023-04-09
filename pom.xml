@@ -7,7 +7,12 @@
     <artifactId>eux-relaterte-rinasaker</artifactId>
 
     <modules>
+        <module>eux-relaterte-rinasaker-resources</module>
+        <module>eux-relaterte-rinasaker-persistence</module>
+        <module>eux-relaterte-rinasaker-service</module>
         <module>eux-relaterte-rinasaker-webapp</module>
+        <module>eux-relaterte-rinasaker-model</module>
+        <module>eux-relaterte-rinasaker-openapi</module>
     </modules>
 
     <groupId>no.nav.eux.relaterte.rinasaker</groupId>
@@ -92,6 +97,16 @@
                     <configuration>
                         <tag>${project.artifactId}-${project.version}</tag>
                     </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-surefire-plugin</artifactId>
+                    <version>3.0.0</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-failsafe-plugin</artifactId>
+                    <version>3.0.0</version>
                 </plugin>
             </plugins>
         </pluginManagement>

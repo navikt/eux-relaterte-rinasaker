@@ -1,0 +1,4 @@
+opprettetDato:
+  type: string
+  format: date
+  description: Dato da entiteten ble opprettet.
