@@ -11,7 +11,7 @@ post:
     content:
       'application/json':
         schema:
-          $ref: 'model.yaml#/RelaterteRinasakSearchCriteriaType'
+          $ref: 'model.yaml#/RelaterteRinasakerSearchCriteriaType'
 
   responses:
     '200':
@@ -19,7 +19,7 @@ post:
       content:
         'application/json':
           schema:
-            $ref: 'model.yaml#/RelaterteRinasakType'
+            $ref: 'model.yaml#/RelaterteRinasakerType'
     '400':
       $ref: '../common/responses.yaml#/400'
     '401':

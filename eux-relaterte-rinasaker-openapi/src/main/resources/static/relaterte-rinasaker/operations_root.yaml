@@ -11,7 +11,7 @@ post:
     content:
       'application/json':
         schema:
-          $ref: 'model.yaml#/RelaterteRinasakerCreateType'
+          $ref: 'model.yaml#/RelaterteRinasakerCreateTypeList'
 
   responses:
     '201':

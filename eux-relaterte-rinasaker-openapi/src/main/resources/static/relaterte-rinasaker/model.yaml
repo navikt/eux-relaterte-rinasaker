@@ -1,12 +1,41 @@
-RelaterteRinasakType:
+RelaterteRinasakerType:
   type: object
   required:
     - relaterteRinasakerId
+    - rinasakIdA
+    - rinasakIdB
+    - opprettetDato
   properties:
     relaterteRinasakerId:
       $ref: '../properties/relaterte-rinasaker.yaml#/relaterteRinasakerId'
+    rinasakIdA:
+      $ref: '../properties/rinasak.yaml#/rinasakId'
+    rinasakIdB:
+      $ref: '../properties/rinasak.yaml#/rinasakId'
+    beskrivelse:
+      $ref: '../properties/meta.yaml#/beskrivelse'
+    opprettetDato:
+      $ref: '../properties/meta.yaml#/opprettetDato'
 
-RelaterteRinasakSearchCriteriaType:
+RelaterteRinasakerCreateType:
+  type: object
+  required:
+    - relaterteRinasakerId
+    - rinasakIdA
+    - rinasakIdB
+  properties:
+    relaterteRinasakerId:
+      $ref: '../properties/relaterte-rinasaker.yaml#/relaterteRinasakerId'
+    rinasakIdA:
+      $ref: '../properties/rinasak.yaml#/rinasakId'
+    rinasakIdB:
+      $ref: '../properties/rinasak.yaml#/rinasakId'
+    beskrivelse:
+      $ref: '../properties/meta.yaml#/beskrivelse'
+    opprettetDato:
+      $ref: '../properties/meta.yaml#/opprettetDato'
+
+RelaterteRinasakerSearchCriteriaType:
   type: object
   properties:
     fraOpprettetDato:
@@ -14,9 +43,9 @@ RelaterteRinasakSearchCriteriaType:
     tilOpprettetDato:
       $ref: '../properties/meta.yaml#/opprettetDato'
 
-RelaterteRinasakerCreateType:
+RelaterteRinasakerCreateTypeList:
     type: array
     minItems: 1
     maxItems: 500
     items:
-      $ref: '#/RelaterteRinasakType'
+      $ref: '#/RelaterteRinasakerCreateType'
