@@ -51,5 +51,11 @@ spec:
   azure:
     application:
       enabled: true
+      allowAllUsers: true
       replyURLs:
         - "{{ INGRESS }}/callback"
+      claims:
+        extra:
+          - "NAVident"
+    sidecar:
+      enabled: true

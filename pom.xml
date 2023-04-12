@@ -31,6 +31,7 @@
         <junit.jupiter.engine.version>5.9.2</junit.jupiter.engine.version>
         <hikaricp.version>5.0.1</hikaricp.version>
         <postgresql.version>42.6.0</postgresql.version>
+        <token.validation.version>3.0.10</token.validation.version>
     </properties>
 
     <scm>
@@ -47,6 +48,11 @@
                 <version>${spring.boot.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>no.nav.security</groupId>
+                <artifactId>token-validation-spring</artifactId>
+                <version>${token.validation.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.zaxxer</groupId>
