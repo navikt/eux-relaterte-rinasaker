@@ -1,7 +1,7 @@
 package no.nav.eux.relaterte.rinasaker.service
 
-import no.nav.eux.relaterte.rinasaker.model.RelaterteRinasaker
 import no.nav.eux.relaterte.rinasaker.model.RelaterteRinasakerCreateRequest
+import no.nav.eux.relaterte.rinasaker.model.RelaterteRinasakerGruppe
 import no.nav.eux.relaterte.rinasaker.persistence.repository.RelaterteRinasakerRepository
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -20,6 +20,6 @@ class RelaterteRinasakerService(
         }
     }
 
-    fun search(): List<RelaterteRinasaker> =
+    fun search(): List<RelaterteRinasakerGruppe> =
         repository.findAll()
 }
