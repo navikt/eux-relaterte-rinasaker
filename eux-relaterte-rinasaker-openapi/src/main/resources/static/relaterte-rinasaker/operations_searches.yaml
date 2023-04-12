@@ -19,7 +19,7 @@ post:
       content:
         'application/json':
           schema:
-            $ref: 'model.yaml#/RelaterteRinasakerType'
+            $ref: 'model.yaml#/RelaterteRinasakerSearchResponseType'
     '400':
       $ref: '../common/responses.yaml#/400'
     '401':

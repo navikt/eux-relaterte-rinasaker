@@ -2,16 +2,16 @@ RelaterteRinasakerType:
   type: object
   required:
     - relaterteRinasakerId
-    - rinasakIdA
-    - rinasakIdB
     - opprettetDato
   properties:
     relaterteRinasakerId:
       $ref: '../properties/relaterte-rinasaker.yaml#/relaterteRinasakerId'
-    rinasakIdA:
-      $ref: '../properties/rinasak.yaml#/rinasakId'
-    rinasakIdB:
-      $ref: '../properties/rinasak.yaml#/rinasakId'
+    rinasakIdList:
+      type: array
+      minItems: 0
+      maxItems: 500
+      items:
+        $ref: '../properties/rinasak.yaml#/rinasakId'
     beskrivelse:
       $ref: '../properties/meta.yaml#/beskrivelse'
     opprettetDato:
@@ -21,15 +21,15 @@ RelaterteRinasakerCreateType:
   type: object
   required:
     - relaterteRinasakerId
-    - rinasakIdA
-    - rinasakIdB
   properties:
     relaterteRinasakerId:
       $ref: '../properties/relaterte-rinasaker.yaml#/relaterteRinasakerId'
-    rinasakIdA:
-      $ref: '../properties/rinasak.yaml#/rinasakId'
-    rinasakIdB:
-      $ref: '../properties/rinasak.yaml#/rinasakId'
+    rinasakIdList:
+      type: array
+      minItems: 0
+      maxItems: 500
+      items:
+        $ref: '../properties/rinasak.yaml#/rinasakId'
     beskrivelse:
       $ref: '../properties/meta.yaml#/beskrivelse'
     opprettetDato:
@@ -49,3 +49,13 @@ RelaterteRinasakerCreateTypeList:
     maxItems: 500
     items:
       $ref: '#/RelaterteRinasakerCreateType'
+
+RelaterteRinasakerSearchResponseType:
+  type: object
+  properties:
+    relaterteRinasaker:
+      type: array
+      minItems: 0
+      maxItems: 500
+      items:
+        $ref: '#/RelaterteRinasakerType'

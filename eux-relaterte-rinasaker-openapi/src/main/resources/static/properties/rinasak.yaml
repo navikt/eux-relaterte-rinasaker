@@ -3,4 +3,4 @@ rinasakId:
   minLength: 1
   maxLength: 35
   description: >
-    Rinasak Id.
+    Unik id for en rina sak

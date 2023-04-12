@@ -1,15 +1,15 @@
 openapi: 3.0.3
 info:
-  title: Rinasak API
-  description: API for å behandle rina-saker
+  title: Relaterte rinasaker API
+  description: API for å behandle grupper av rina-saker
   contact:
     name: vegard.lundeberg.hillestad@nav.no
-  version: v4
+  version: v1
 servers:
-  - url: 'http://localhost:8080/api/v4'
+  - url: 'http://localhost:8080/api/v1'
 tags:
   - name: Relaterte Rinasaker API
-    description: API for å behandle rina-saker
+    description: API for å behandle grupper av relaterte rinasaker
 
 paths:
   '/relaterterinasaker/searches':

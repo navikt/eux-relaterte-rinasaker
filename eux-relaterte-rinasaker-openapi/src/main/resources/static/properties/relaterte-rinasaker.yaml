@@ -2,4 +2,4 @@ relaterteRinasakerId:
   type: string
   format: uuid
   description: >
-    Unique id
+    Id for en gruppe av relaterte rinasaker

@@ -1,7 +1,6 @@
 package no.nav.eux.relaterte.rinasaker.model
 
 import jakarta.persistence.*
-import jakarta.persistence.FetchType.EAGER
 import java.time.LocalDateTime
 import java.util.*
 
@@ -9,13 +8,14 @@ import java.util.*
 class RelaterteRinasakerGruppe(
     @Id
     val relaterteRinasakerGruppeId: UUID,
-    @ElementCollection(targetClass = String::class, fetch = EAGER)
+    val beskrivelse: String?,
+    val opprettetDato: LocalDateTime,
+
+    @ElementCollection(targetClass = String::class, fetch = FetchType.EAGER)
     @CollectionTable(
         name = "relaterte_rinasaker",
         joinColumns = [JoinColumn(name = "relaterte_rinasaker_gruppe_id")]
     )
     @Column(name = "rinasak_id")
-    val rinasakIdList: List<String>,
-    val beskrivelse: String?,
-    val opprettetDato: LocalDateTime,
+    val rinasakIdList: List<String>
 )
