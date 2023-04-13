@@ -38,6 +38,8 @@ RelaterteRinasakerCreateType:
 RelaterteRinasakerSearchCriteriaType:
   type: object
   properties:
+    rinasakId:
+      $ref: '../properties/rinasak.yaml#/rinasakId'
     fraOpprettetDato:
       $ref: '../properties/meta.yaml#/opprettetDato'
     tilOpprettetDato:

@@ -4,8 +4,13 @@ import no.nav.eux.relaterte.rinasaker.model.*
 import java.time.OffsetDateTime.from
 import java.time.ZoneOffset.UTC
 
-fun List<RelaterteRinasakerCreateType>.toRelaterteRinasakerGruppeCreateRequestList() =
-    map { it.toRelaterteRinasakerGruppeCreateRequest() }
+val List<RelaterteRinasakerCreateType>.relaterteRinasakerGruppeCreateRequestList:
+        List<RelaterteRinasakerGruppeCreateRequest>
+    get() = map { it.toRelaterteRinasakerGruppeCreateRequest() }
+
+val RelaterteRinasakerSearchCriteriaType.relaterteRinasakerSearchCriteria:
+        RelaterteRinasakerSearchCriteria
+    get() = RelaterteRinasakerSearchCriteria(rinasakId = rinasakId)
 
 fun RelaterteRinasakerCreateType.toRelaterteRinasakerGruppeCreateRequest() =
     RelaterteRinasakerGruppeCreateRequest(

@@ -18,7 +18,7 @@ class RelaterteRinasakerApiImpl(
         relaterteRinasakerSearchCriteriaType: RelaterteRinasakerSearchCriteriaType,
         userId: String?,
     ) = service
-        .search()
+        .search(relaterteRinasakerSearchCriteriaType.relaterteRinasakerSearchCriteria)
         .toRelaterteRinasakerType()
         .toRelaterteRinasakerSearchResponseType()
         .toOkResponseEntity()
@@ -28,6 +28,6 @@ class RelaterteRinasakerApiImpl(
         relaterteRinasakerCreateType: List<RelaterteRinasakerCreateType>,
         userId: String?
     ) = service
-        .create(relaterteRinasakerCreateType.toRelaterteRinasakerGruppeCreateRequestList())
+        .create(relaterteRinasakerCreateType.relaterteRinasakerGruppeCreateRequestList)
         .toCreatedEmptyResponseEntity()
 }
