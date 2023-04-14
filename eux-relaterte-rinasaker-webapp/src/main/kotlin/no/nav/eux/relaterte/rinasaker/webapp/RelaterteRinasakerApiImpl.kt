@@ -24,7 +24,7 @@ class RelaterteRinasakerApiImpl(
         .toOkResponseEntity()
 
     @Unprotected
-    override fun relaterteRinasakerCreate(
+    override fun opprettRelaterteRinasaker(
         relaterteRinasakerCreateType: List<RelaterteRinasakerCreateType>,
         userId: String?
     ) = service

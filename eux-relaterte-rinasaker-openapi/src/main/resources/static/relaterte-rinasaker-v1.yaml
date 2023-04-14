@@ -12,7 +12,7 @@ tags:
     description: API for å behandle grupper av relaterte rinasaker
 
 paths:
-  '/relaterterinasaker/searches':
-    $ref: 'relaterte-rinasaker/operations_searches.yaml'
+  '/relaterterinasaker/søk':
+    $ref: 'relaterte-rinasaker/operations_søk.yaml'
   '/relaterterinasaker':
-    $ref: 'relaterte-rinasaker/operations_root.yaml'
+    $ref: 'relaterte-rinasaker/operations_rot.yaml'

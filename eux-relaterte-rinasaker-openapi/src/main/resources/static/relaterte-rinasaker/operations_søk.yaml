@@ -1,7 +1,7 @@
 post:
   tags:
     - Relaterte Rinasaker API
-  summary: Searches
+  summary: Søk
   description: Searches Desc
   operationId: relaterteRinasakerSearch
   parameters:

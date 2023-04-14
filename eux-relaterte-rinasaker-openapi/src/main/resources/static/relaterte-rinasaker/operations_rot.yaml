@@ -1,9 +1,9 @@
 post:
   tags:
     - Relaterte Rinasaker API
-  summary: Create
-  description: Searches Desc
-  operationId: relaterteRinasakerCreate
+  summary: Opprett
+  description: Opprett ny rinasak relasjon
+  operationId: opprettRelaterteRinasaker
   parameters:
     - $ref: '../common/header.yaml#/UserId'
   requestBody:
