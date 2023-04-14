@@ -57,6 +57,8 @@ spec:
       claims:
         extra:
           - "NAVident"
+    sidecar:
+      enabled: true
   accessPolicy:
     inbound:
       rules:
@@ -69,5 +71,3 @@ spec:
         - application: eux-neessi
           namespace: eessibasis
           cluster: prod-fss
-    sidecar:
-      enabled: true
