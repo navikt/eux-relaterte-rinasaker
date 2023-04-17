@@ -7,6 +7,10 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.boot.runApplication
 import org.springframework.context.annotation.Import
 
+@EnableJwtTokenValidation(ignore = [
+    "org.springframework",
+    "io.springfox"]
+)
 @SpringBootApplication
 @Import(value = [SpringDocConfiguration::class])
 @EnableConfigurationProperties(DataSourceProperties::class)
