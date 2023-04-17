@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Import
 
 @EnableJwtTokenValidation(ignore = [
     "org.springframework",
-    "io.springfox"]
+    "org.springdoc"]
 )
 @SpringBootApplication
 @Import(value = [SpringDocConfiguration::class])
