@@ -11,6 +11,10 @@
 
     <artifactId>eux-relaterte-rinasaker-openapi</artifactId>
 
+    <properties>
+        <openapi.spec>${project.basedir}/src/main/resources/static/relaterte-rinasaker-v1.yaml</openapi.spec>
+    </properties>
+
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -48,7 +52,7 @@
                             <goal>generate</goal>
                         </goals>
                         <configuration>
-                            <inputSpec>${project.basedir}/src/main/resources/static/relaterte-rinasaker-v1.yaml</inputSpec>
+                            <inputSpec>${openapi.spec}</inputSpec>
                             <modelPackage>no.nav.eux.relaterte.rinasaker.model</modelPackage>
                             <apiPackage>no.nav.eux.relaterte.rinasaker.api</apiPackage>
                             <generatorName>kotlin-spring</generatorName>
