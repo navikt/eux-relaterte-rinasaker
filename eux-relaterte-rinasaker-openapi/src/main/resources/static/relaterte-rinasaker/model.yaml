@@ -35,6 +35,22 @@ RelaterteRinasakerCreateType:
     opprettetDato:
       $ref: '../properties/meta.yaml#/opprettetDato'
 
+RelaterteRinasakerPatchType:
+  type: object
+  required:
+    - relaterteRinasakerId
+  properties:
+    relaterteRinasakerId:
+      $ref: '../properties/relaterte-rinasaker.yaml#/relaterteRinasakerId'
+    rinasakIdList:
+      type: array
+      minItems: 0
+      maxItems: 500
+      items:
+        $ref: '../properties/rinasak.yaml#/rinasakId'
+    beskrivelse:
+      $ref: '../properties/meta.yaml#/beskrivelse'
+
 RelaterteRinasakerSearchCriteriaType:
   type: object
   properties:

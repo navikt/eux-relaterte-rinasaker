@@ -19,4 +19,12 @@ class RelaterteRinasakerGruppe(
     )
     @Column(name = "rinasak_id")
     val rinasakIdList: List<String>
-)
+) {
+    fun patch(patch: RelaterteRinasakerGruppePatch) =
+        RelaterteRinasakerGruppe(
+            relaterteRinasakerGruppeId = patch.relaterteRinasakerGruppeId,
+            beskrivelse = patch.beskrivelse ?: beskrivelse,
+            rinasakIdList = patch.rinasakIdList ?: rinasakIdList,
+            opprettetDato = opprettetDato
+        )
+}

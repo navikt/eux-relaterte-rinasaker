@@ -8,6 +8,10 @@ val List<RelaterteRinasakerCreateType>.relaterteRinasakerGruppeCreateRequestList
         List<RelaterteRinasakerGruppeCreateRequest>
     get() = map { it.toRelaterteRinasakerGruppeCreateRequest() }
 
+val RelaterteRinasakerPatchType.relaterteRinasakerGruppePatch:
+        RelaterteRinasakerGruppePatch
+    get() = toRelaterteRinasakerGruppePatch()
+
 val RelaterteRinasakerSearchCriteriaType.relaterteRinasakerSearchCriteria:
         RelaterteRinasakerSearchCriteria
     get() = RelaterteRinasakerSearchCriteria(rinasakId = rinasakId)
@@ -18,6 +22,13 @@ fun RelaterteRinasakerCreateType.toRelaterteRinasakerGruppeCreateRequest() =
         beskrivelse = beskrivelse,
         rinasakIdList = rinasakIdList ?: emptyList(),
         opprettetDato = opprettetDato?.toLocalDateTime(),
+    )
+
+fun RelaterteRinasakerPatchType.toRelaterteRinasakerGruppePatch() =
+    RelaterteRinasakerGruppePatch(
+        relaterteRinasakerGruppeId = relaterteRinasakerId,
+        beskrivelse = beskrivelse,
+        rinasakIdList = rinasakIdList ?: emptyList(),
     )
 
 fun List<RelaterteRinasakerType>.toRelaterteRinasakerSearchResponseType() =

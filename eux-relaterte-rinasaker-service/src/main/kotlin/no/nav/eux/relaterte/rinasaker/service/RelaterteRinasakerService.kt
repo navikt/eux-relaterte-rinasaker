@@ -2,8 +2,10 @@ package no.nav.eux.relaterte.rinasaker.service
 
 import no.nav.eux.relaterte.rinasaker.model.RelaterteRinasakerGruppe
 import no.nav.eux.relaterte.rinasaker.model.RelaterteRinasakerGruppeCreateRequest
+import no.nav.eux.relaterte.rinasaker.model.RelaterteRinasakerGruppePatch
 import no.nav.eux.relaterte.rinasaker.model.RelaterteRinasakerSearchCriteria
 import no.nav.eux.relaterte.rinasaker.persistence.repository.RelaterteRinasakerRepository
+import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -19,6 +21,15 @@ class RelaterteRinasakerService(
         relaterteRinasaker.forEach {
             repository.save(it.toRelaterteRinasaker())
         }
+    }
+
+    @Transactional
+    fun patch(
+        patch: RelaterteRinasakerGruppePatch
+    ) {
+        repository
+            .findByIdOrNull(patch.relaterteRinasakerGruppeId)
+            ?.let { repository.save(it.patch(patch)) }
     }
 
     fun search(
