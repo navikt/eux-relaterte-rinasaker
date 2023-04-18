@@ -6,7 +6,7 @@ import java.time.LocalDateTime
 import java.util.*
 
 @Entity
-class RelaterteRinasakerGruppe(
+data class RelaterteRinasakerGruppe(
     @Id
     val relaterteRinasakerGruppeId: UUID,
     val beskrivelse: String?,
