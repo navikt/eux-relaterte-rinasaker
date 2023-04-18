@@ -3,7 +3,7 @@ package no.nav.eux.relaterte.rinasaker.model
 import java.time.LocalDateTime
 import java.util.*
 
-class RelaterteRinasakerGruppeCreateRequest(
+data class RelaterteRinasakerGruppeCreateRequest(
     val relaterteRinasakerId: UUID,
     val rinasakIdList: List<String>,
     val beskrivelse: String?,
