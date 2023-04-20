@@ -22,9 +22,9 @@ jobs:
       postgres:
         image: postgres:14
         env:
-          POSTGRES_DB: postgres
+          POSTGRES_DB: ${DATABASE_DATABASE}
           POSTGRES_PASSWORD: postgres
-          POSTGRES_USER: postgres
+          POSTGRES_USER: ${DATABASE_USERNAME}
         options: >-
           --health-cmd pg_isready
           --health-interval 10s
