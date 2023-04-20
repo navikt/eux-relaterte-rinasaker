@@ -13,6 +13,11 @@ env:
   APP_NAME: eux-relaterte-rinasaker
   IMAGE: docker.pkg.github.com/${{ github.repository }}/eux-relaterte-rinasaker
   READER_TOKEN: ${{ secrets.READER_TOKEN }}
+  DATABASE_HOST: localhost
+  DATABASE_PORT: 5432
+  DATABASE_DATABASE: postgres
+  DATABASE_USERNAME: postgres
+  DATABASE_PASSWORD: postgres
 
 jobs:
   build:
@@ -20,6 +25,20 @@ jobs:
     runs-on: ubuntu-latest
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    services:
+      postgres:
+        image: postgres:14
+        env:
+          POSTGRES_PASSWORD: postgres
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
+
     steps:
       - name: Checkout
         uses: actions/checkout@v3
