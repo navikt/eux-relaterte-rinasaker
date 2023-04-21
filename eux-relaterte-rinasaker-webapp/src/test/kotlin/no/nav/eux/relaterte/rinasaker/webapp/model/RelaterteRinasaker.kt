@@ -1,13 +1,12 @@
 package no.nav.eux.relaterte.rinasaker.webapp.model
 
+import no.nav.eux.relaterte.rinasaker.webapp.common.offsetDateTime1
 import java.time.OffsetDateTime
-import java.time.OffsetDateTime.now
 import java.util.*
-import java.util.UUID.randomUUID
 
 data class RelaterteRinasaker(
-    val relaterteRinasakerId: UUID = randomUUID(),
+    val relaterteRinasakerId: UUID,
     val beskrivelse: String = "Relaterte rinasaker",
-    val opprettetDato: OffsetDateTime = now(),
+    val opprettetDato: OffsetDateTime = offsetDateTime1,
     val rinasakIdList: List<String> = emptyList(),
 )
