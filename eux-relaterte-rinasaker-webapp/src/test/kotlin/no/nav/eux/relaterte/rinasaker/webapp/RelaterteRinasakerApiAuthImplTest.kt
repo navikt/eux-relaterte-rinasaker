@@ -2,7 +2,7 @@ package no.nav.eux.relaterte.rinasaker.webapp
 
 import com.nimbusds.jose.JOSEObjectType.JWT
 import io.restassured.http.ContentType.JSON
-import io.restassured.module.mockmvc.RestAssuredMockMvc
+import io.restassured.module.mockmvc.RestAssuredMockMvc.given
 import io.restassured.module.mockmvc.RestAssuredMockMvc.webAppContextSetup
 import jakarta.servlet.Filter
 import no.nav.eux.relaterte.rinasaker.Application
@@ -29,7 +29,7 @@ import java.net.URI
 )
 @ActiveProfiles("test")
 @EnableMockOAuth2Server
-class RelaterteRinasakerApAuthiImplTest {
+class RelaterteRinasakerApiAuthImplTest {
 
     @Autowired
     lateinit var webApplicationContext: WebApplicationContext
@@ -45,7 +45,7 @@ class RelaterteRinasakerApAuthiImplTest {
 
     @Test
     fun `POST relaterterinasaker søk - no token in request - 401`() {
-        RestAssuredMockMvc.given()
+        given()
             .contentType(JSON)
             .body("{}")
             .`when`()
@@ -60,7 +60,7 @@ class RelaterteRinasakerApAuthiImplTest {
     fun `POST relaterterinasaker søk - søk uten kriterier - 200`() {
         val token1 = token()
         val uri = "/api/v1/relaterterinasaker/søk"
-        RestAssuredMockMvc.given()
+        given()
             .header("Authorization", "Bearer $token1")
             .contentType(JSON)
             .body("{}")
