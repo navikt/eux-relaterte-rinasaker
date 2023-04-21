@@ -22,6 +22,7 @@ import org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDO
 import org.springframework.boot.test.web.client.TestRestTemplate
 import org.springframework.boot.test.web.client.patchForObject
 import org.springframework.boot.test.web.client.postForEntity
+import org.springframework.boot.test.web.client.postForObject
 import org.springframework.http.HttpEntity
 import org.springframework.http.HttpHeaders
 import org.springframework.http.MediaType.APPLICATION_JSON
@@ -65,13 +66,13 @@ class RelaterteRinasakerApiImplTest {
         headers.contentType = APPLICATION_JSON
         headers.set("Authorization", "Bearer ${mockOAuth2Server.token}")
         val entity: HttpEntity<String> = HttpEntity<String>("{}", headers)
-        val response = restTemplate
-            .postForObject("/api/v1/relaterterinasaker/søk", entity, RelaterteRinasakerGruppe::class.java)
+        val response: RelaterteRinasakerGruppe? = restTemplate
+            .postForObject(url = "/api/v1/relaterterinasaker/søk", request = entity)
         assertThat(response).isEqualTo(RelaterteRinasakerGruppe(emptyList()))
     }
 
     @Test
-    fun `POST relaterterinasaker - forespørsel, ny sak, tomt søk - 200`() {
+    fun `POST relaterterinasaker - forespørsel, ny sak, tomt søk - 201`() {
         val createResponse = restTemplate.postForEntity<Void>(
             "/api/v1/relaterterinasaker",
             listOf(RelaterteRinasakerForespørsel()).httpEntity()
@@ -86,7 +87,7 @@ class RelaterteRinasakerApiImplTest {
     }
 
     @Test
-    fun `POST relaterterinasaker, forespørsel, en til mange knytning mellom saker - 200`() {
+    fun `POST relaterterinasaker, forespørsel, en til mange knytning mellom saker - 201`() {
         val createResponse = restTemplate.postForEntity<Void>(
             "/api/v1/relaterterinasaker",
             listOf(
