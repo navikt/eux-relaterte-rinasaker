@@ -38,5 +38,5 @@ class RelaterteRinasakerService(
         searchCriteria
             .rinasakId
             ?.let { repository.findAllByRinasakIdListIn(listOf(it)) }
-            ?: repository.findAll()
+            ?: repository.findAll().sortedBy { it.relaterteRinasakerGruppeId }
 }
