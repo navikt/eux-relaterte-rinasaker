@@ -7,12 +7,11 @@
     <artifactId>eux-relaterte-rinasaker</artifactId>
 
     <modules>
-        <module>eux-relaterte-rinasaker-resources</module>
+        <module>eux-relaterte-rinasaker-openapi</module>
+        <module>eux-relaterte-rinasaker-model</module>
         <module>eux-relaterte-rinasaker-persistence</module>
         <module>eux-relaterte-rinasaker-service</module>
         <module>eux-relaterte-rinasaker-webapp</module>
-        <module>eux-relaterte-rinasaker-model</module>
-        <module>eux-relaterte-rinasaker-openapi</module>
     </modules>
 
     <groupId>no.nav.eux.relaterte.rinasaker</groupId>

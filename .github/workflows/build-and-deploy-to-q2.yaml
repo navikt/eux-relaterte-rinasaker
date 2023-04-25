@@ -116,7 +116,6 @@ jobs:
         run: |
           echo "CLUSTER=dev-gcp" >> $GITHUB_ENV
           echo "NAME=eux-relaterte-rinasaker-q2" >> $GITHUB_ENV
-          echo "SPRING_PROFILE=q2" >> $GITHUB_ENV
           echo "INGRESS=https://eux-relaterte-rinasaker-q2.intern.dev.nav.no" >> $GITHUB_ENV
           echo "SERVICEUSER=/serviceuser/data/dev/srveux-app" >> $GITHUB_ENV
       - name: 'Calling deploy action (eessibasis namespace)'

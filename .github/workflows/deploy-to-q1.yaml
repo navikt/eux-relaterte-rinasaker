@@ -19,20 +19,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-
       - name: 'Deploy to q1'
         run: |
           echo "DOCKER_IMAGE=${{ env.IMAGE }}:${{ github.event.inputs.version }}" >> $GITHUB_ENV
-          echo "CLUSTER=dev-fss" >> $GITHUB_ENV
+          echo "CLUSTER=dev-gcp" >> $GITHUB_ENV
           echo "NAME=eux-relaterte-rinasaker-q1" >> $GITHUB_ENV
-          echo "SPRING_PROFILE=q1" >> $GITHUB_ENV
-          echo "INGRESS=https://eux-relaterte-rinasaker-q2.intern.dev.nav.no" >> $GITHUB_ENV
+          echo "INGRESS=https://eux-relaterte-rinasaker-q1.intern.dev.nav.no" >> $GITHUB_ENV
           echo "SERVICEUSER=/serviceuser/data/dev/srveux-app" >> $GITHUB_ENV
-          echo "KEYVALUE=/kv/preprod/fss/${{ env.APP_NAME }}-q1/eessibasis" >> $GITHUB_ENV
-          echo "RINA_CREDENTIAL_KV=- kvPath: /credential/data/dev/rina_cpi_jwt" >> $GITHUB_ENV
-          echo "RINA_CREDENTIAL_MOUNT=mountPath: /var/run/secrets/nais.io/rina_cpi_jwt" >> $GITHUB_ENV
-          echo "VARS_FILE=vars-q.yaml" >> $GITHUB_ENV
-
       - name: 'Calling deploy action (eessibasis namespace)'
         uses: nais/deploy/actions/deploy@v1
         env:
@@ -43,12 +36,5 @@ jobs:
             NAME=${{ env.NAME }},\
             IMAGE=${{ env.DOCKER_IMAGE }},\
             INGRESS=${{ env.INGRESS }},\
-            INGRESS2=${{ env.INGRESS2 }},\
-            INGRESS3=${{ env.INGRESS3 }},\
-            INGRESS4=${{ env.INGRESS4 }},\
-            SERVICEUSER=${{ env.SERVICEUSER }},\
-            KEYVALUE=${{ env.KEYVALUE }},\
-            RINA_CREDENTIAL_KV=${{ env.RINA_CREDENTIAL_KV }},\
-            RINA_CREDENTIAL_MOUNT=${{ env.RINA_CREDENTIAL_MOUNT }}"
-          VARS: deploy/${{ env.VARS_FILE }}
+            SERVICEUSER=${{ env.SERVICEUSER }}"
           PRINT_PAYLOAD: true
