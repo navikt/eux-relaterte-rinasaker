@@ -124,8 +124,7 @@ jobs:
           APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
           CLUSTER: ${{ env.CLUSTER }}
           RESOURCE: ./.nais/nais.yaml
-          VAR: "SPRING_PROFILE=${{ env.SPRING_PROFILE }},\
-            NAME=${{ env.NAME }},\
+          VAR: "NAME=${{ env.NAME }},\
             IMAGE=${{ needs.build.outputs.docker-image }},\
             INGRESS=${{ env.INGRESS }},\
             SERVICEUSER=${{ env.SERVICEUSER }}"
