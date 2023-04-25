@@ -31,7 +31,7 @@ jobs:
         env:
           APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
           CLUSTER: ${{ env.CLUSTER }}
-          RESOURCE: ./deploy/nais.yaml
+          RESOURCE: ./.nais/nais.yaml
           VAR: "NAME=${{ env.NAME }},\
             IMAGE=${{ env.DOCKER_IMAGE }},\
             INGRESS=${{ env.INGRESS }},\
