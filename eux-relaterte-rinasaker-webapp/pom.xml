@@ -70,11 +70,6 @@
         <!-- Siblings -->
         <dependency>
             <groupId>no.nav.eux.relaterte.rinasaker</groupId>
-            <artifactId>eux-relaterte-rinasaker-resources</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>no.nav.eux.relaterte.rinasaker</groupId>
             <artifactId>eux-relaterte-rinasaker-service</artifactId>
             <version>${project.version}</version>
         </dependency>
