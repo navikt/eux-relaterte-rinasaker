@@ -30,6 +30,7 @@ jobs:
           echo "NAME=${{ env.APP_NAME }}" >> $GITHUB_ENV
           echo "INGRESS=https://eux-relaterte-rinasaker.intern.nav.no" >> $GITHUB_ENV
           echo "SERVICEUSER=/serviceuser/data/prod/srveux-app" >> $GITHUB_ENV
+          echo "DATABASE_NAME=eux-relaterte-rinasaker-db" >> $GITHUB_ENV
       - name: 'Calling deploy action (eessibasis namespace)'
         if: github.event.inputs.environment == 'prod'
         uses: nais/deploy/actions/deploy@v1
@@ -40,6 +41,7 @@ jobs:
           VAR: "NAME=${{ env.NAME }},\
             IMAGE=${{ env.DOCKER_IMAGE }},\
             INGRESS=${{ env.INGRESS }},\
-            SERVICEUSER=${{ env.SERVICEUSER }}"
+            SERVICEUSER=${{ env.SERVICEUSER }},\
+            DATABASE_NAME=${{ env.DATABASE_NAME }}"
           VARS: deploy/${{ env.VARS_FILE }}
           PRINT_PAYLOAD: true

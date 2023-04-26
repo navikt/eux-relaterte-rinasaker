@@ -14,7 +14,7 @@ spec:
       - type: POSTGRES_14
         diskAutoresize: true
         databases:
-          - name: db
+          - name: {{ DATABASE_NAME }}
             envVarPrefix:
               DATABASE
   liveness:
