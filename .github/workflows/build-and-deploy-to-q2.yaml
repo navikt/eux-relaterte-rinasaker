@@ -118,7 +118,7 @@ jobs:
           echo "NAME=eux-relaterte-rinasaker-q2" >> $GITHUB_ENV
           echo "INGRESS=https://eux-relaterte-rinasaker-q2.intern.dev.nav.no" >> $GITHUB_ENV
           echo "SERVICEUSER=/serviceuser/data/dev/srveux-app" >> $GITHUB_ENV
-          echo "DATABASE_NAME=db" >> $GITHUB_ENV
+          echo "DATABASE_NAME=eux-relaterte-rinasaker-db-q2" >> $GITHUB_ENV
       - name: 'Calling deploy action (eessibasis namespace)'
         uses: nais/deploy/actions/deploy@v1
         env:
