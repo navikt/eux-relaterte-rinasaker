@@ -5,7 +5,9 @@ import io.restassured.module.mockmvc.RestAssuredMockMvc.given
 import io.restassured.module.mockmvc.RestAssuredMockMvc.webAppContextSetup
 import jakarta.servlet.Filter
 import no.nav.eux.relaterte.rinasaker.Application
+import no.nav.eux.relaterte.rinasaker.webapp.common.relaterteRinasakerSøkUrl
 import no.nav.eux.relaterte.rinasaker.webapp.common.token
+import no.nav.eux.relaterte.rinasaker.webapp.model.RelaterteRinasakerSøk
 import no.nav.security.mock.oauth2.MockOAuth2Server
 import no.nav.security.token.support.spring.test.EnableMockOAuth2Server
 import org.junit.jupiter.api.BeforeEach
@@ -46,9 +48,9 @@ class RelaterteRinasakerApiAuthImplTest {
     fun `POST relaterterinasaker søk - no token in request - 401`() {
         given()
             .contentType(JSON)
-            .body("{}")
+            .body(RelaterteRinasakerSøk())
             .`when`()
-            .post(URI("/api/v1/relaterterinasaker/søk"))
+            .post(URI(relaterteRinasakerSøkUrl))
             .then()
             .log()
             .ifValidationFails()
@@ -60,9 +62,9 @@ class RelaterteRinasakerApiAuthImplTest {
         given()
             .header("Authorization", "Bearer ${server.token}")
             .contentType(JSON)
-            .body("{}")
+            .body(RelaterteRinasakerSøk())
             .`when`()
-            .post(URI("/api/v1/relaterterinasaker/søk"))
+            .post(URI(relaterteRinasakerSøkUrl))
             .then()
             .log()
             .ifValidationFails()

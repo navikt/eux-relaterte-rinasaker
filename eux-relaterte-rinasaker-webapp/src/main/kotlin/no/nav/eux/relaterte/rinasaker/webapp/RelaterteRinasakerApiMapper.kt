@@ -28,7 +28,7 @@ fun RelaterteRinasakerPatchType.toRelaterteRinasakerGruppePatch() =
     RelaterteRinasakerGruppePatch(
         relaterteRinasakerGruppeId = relaterteRinasakerId,
         beskrivelse = beskrivelse,
-        rinasakIdList = rinasakIdList ?: emptyList(),
+        rinasakIdList = rinasakIdList,
     )
 
 fun List<RelaterteRinasakerType>.toRelaterteRinasakerSearchResponseType() =

@@ -1,16 +1,11 @@
 package no.nav.eux.relaterte.rinasaker.webapp
 
 import no.nav.eux.relaterte.rinasaker.Application
-import no.nav.eux.relaterte.rinasaker.webapp.common.httpEntity
-import no.nav.eux.relaterte.rinasaker.webapp.common.token
-import no.nav.eux.relaterte.rinasaker.webapp.common.uuid1
-import no.nav.eux.relaterte.rinasaker.webapp.common.uuid2
-import no.nav.eux.relaterte.rinasaker.webapp.dataset.expectedRelaterteRinasakerGruppe
-import no.nav.eux.relaterte.rinasaker.webapp.dataset.expectedRelaterteRinasakerGruppeEnTilMange
-import no.nav.eux.relaterte.rinasaker.webapp.dataset.expectedRelaterteRinasakerGruppeEnTilMangeOppdatert
+import no.nav.eux.relaterte.rinasaker.webapp.common.*
+import no.nav.eux.relaterte.rinasaker.webapp.dataset.*
 import no.nav.eux.relaterte.rinasaker.webapp.model.RelaterteRinasakerForespørsel
 import no.nav.eux.relaterte.rinasaker.webapp.model.RelaterteRinasakerGruppe
-import no.nav.eux.relaterte.rinasaker.webapp.model.RelaterteRinasakerOppdatering
+import no.nav.eux.relaterte.rinasaker.webapp.model.RelaterteRinasakerSøk
 import no.nav.security.mock.oauth2.MockOAuth2Server
 import no.nav.security.token.support.spring.test.EnableMockOAuth2Server
 import org.assertj.core.api.Assertions.assertThat
@@ -58,7 +53,8 @@ class RelaterteRinasakerApiImplTest {
         )
     }
 
-    fun <T> T.httpEntity() = httpEntity(mockOAuth2Server)
+    val <T> T.httpEntity: HttpEntity<T>
+        get() = httpEntity(mockOAuth2Server)
 
     @Test
     fun `POST relaterterinasaker søk - søk uten kriterier - 200`() {
@@ -67,67 +63,84 @@ class RelaterteRinasakerApiImplTest {
         headers.set("Authorization", "Bearer ${mockOAuth2Server.token}")
         val entity: HttpEntity<String> = HttpEntity<String>("{}", headers)
         val response: RelaterteRinasakerGruppe? = restTemplate
-            .postForObject(url = "/api/v1/relaterterinasaker/søk", request = entity)
+            .postForObject(url = relaterteRinasakerSøkUrl, request = entity)
         assertThat(response).isEqualTo(RelaterteRinasakerGruppe(emptyList()))
     }
 
     @Test
     fun `POST relaterterinasaker - forespørsel, ny sak, tomt søk - 201`() {
         val createResponse = restTemplate.postForEntity<Void>(
-            "/api/v1/relaterterinasaker",
-            listOf(RelaterteRinasakerForespørsel()).httpEntity()
+            relaterteRinasakerUrl,
+            listOf(RelaterteRinasakerForespørsel()).httpEntity
         )
         assertThat(createResponse.statusCode.value()).isEqualTo(201)
-        val searchResponse = restTemplate.postForObject(
-            "/api/v1/relaterterinasaker/søk",
-            "{}".httpEntity(),
-            RelaterteRinasakerGruppe::class.java
+        val searchResponse: RelaterteRinasakerGruppe? = restTemplate.postForObject(
+            url = relaterteRinasakerSøkUrl,
+            request = RelaterteRinasakerSøk().httpEntity
         )
         assertThat(searchResponse).isEqualTo(expectedRelaterteRinasakerGruppe)
     }
 
     @Test
-    fun `POST relaterterinasaker, forespørsel, en til mange knytning mellom saker - 201`() {
+    fun `POST relaterterinasaker - forespørsel, en til mange knytning mellom saker - 201`() {
         val createResponse = restTemplate.postForEntity<Void>(
-            "/api/v1/relaterterinasaker",
-            listOf(
-                RelaterteRinasakerForespørsel(relaterteRinasakerId = uuid1, rinasakIdList = listOf("a", "b")),
-                RelaterteRinasakerForespørsel(relaterteRinasakerId = uuid2, rinasakIdList = listOf("a", "c")),
-            )
-                .httpEntity()
+            url = relaterteRinasakerUrl,
+            request = relaterteRinasakerForespørsel.httpEntity
         )
         assertThat(createResponse.statusCode.value()).isEqualTo(201)
-        val searchResponse = restTemplate.postForObject(
-            "/api/v1/relaterterinasaker/søk",
-            "{}".httpEntity(),
-            RelaterteRinasakerGruppe::class.java
+        val searchResponse: RelaterteRinasakerGruppe? = restTemplate.postForObject(
+            url = relaterteRinasakerSøkUrl,
+            request = RelaterteRinasakerSøk().httpEntity
         )
         assertThat(searchResponse).isEqualTo(expectedRelaterteRinasakerGruppeEnTilMange)
     }
 
     @Test
+    fun `POST relaterterinasaker søk - søk på rinasakId - 201`() {
+        val createResponse = restTemplate.postForEntity<Void>(
+            url = relaterteRinasakerUrl,
+            request = relaterteRinasakerForespørsel.httpEntity
+        )
+        assertThat(createResponse.statusCode.value()).isEqualTo(201)
+        val searchResponse: RelaterteRinasakerGruppe? = restTemplate.postForObject(
+            url = relaterteRinasakerSøkUrl,
+            request = RelaterteRinasakerSøk(rinasakId = "b").httpEntity
+        )
+        assertThat(searchResponse).isEqualTo(expectedRelaterteRinasakerGruppeKunB)
+    }
+
+    @Test
     fun `PATCH relaterterinasaker - oppdater knytning - 200`() {
         restTemplate.postForEntity<Void>(
-            "/api/v1/relaterterinasaker",
-            listOf(
-                RelaterteRinasakerForespørsel(relaterteRinasakerId = uuid1, rinasakIdList = listOf("a", "b")),
-                RelaterteRinasakerForespørsel(relaterteRinasakerId = uuid2, rinasakIdList = listOf("a", "c")),
-            )
-                .httpEntity()
+            url = relaterteRinasakerUrl,
+            request = relaterteRinasakerForespørsel.httpEntity
         )
         restTemplate.patchForObject<Void>(
-            "/api/v1/relaterterinasaker",
-            RelaterteRinasakerOppdatering(
-                relaterteRinasakerId = uuid1,
-                rinasakIdList = listOf("a", "b2"),
-            )
-                .httpEntity()
+            url = relaterteRinasakerUrl,
+            request = relaterteRinasakerOppdatering.httpEntity
         )
-        val søkResponse = restTemplate.postForObject(
-            "/api/v1/relaterterinasaker/søk",
-            "{}".httpEntity(),
-            RelaterteRinasakerGruppe::class.java
+        val søkResponse: RelaterteRinasakerGruppe? = restTemplate.postForObject(
+            relaterteRinasakerSøkUrl,
+            RelaterteRinasakerSøk().httpEntity
         )
         assertThat(søkResponse).isEqualTo(expectedRelaterteRinasakerGruppeEnTilMangeOppdatert)
     }
+
+    @Test
+    fun `PATCH relaterterinasaker - oppdater beskrivelse - 200`() {
+        restTemplate.postForEntity<Void>(
+            url = relaterteRinasakerUrl,
+            request = relaterteRinasakerForespørsel.httpEntity
+        )
+        restTemplate.patchForObject<Void>(
+            url = relaterteRinasakerUrl,
+            request = relaterteRinasakerOppdateringNyBeskrivelse.httpEntity
+        )
+        val søkResponse: RelaterteRinasakerGruppe? = restTemplate.postForObject(
+            relaterteRinasakerSøkUrl,
+            RelaterteRinasakerSøk().httpEntity
+        )
+        assertThat(søkResponse).isEqualTo(expectedRelaterteRinasakerGruppeEnTilMangeOppdatertNyBeskrivelse)
+    }
+
 }

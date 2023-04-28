@@ -4,7 +4,9 @@ import no.nav.eux.relaterte.rinasaker.webapp.common.offsetDateTime1
 import no.nav.eux.relaterte.rinasaker.webapp.common.uuid1
 import no.nav.eux.relaterte.rinasaker.webapp.common.uuid2
 import no.nav.eux.relaterte.rinasaker.webapp.model.RelaterteRinasaker
+import no.nav.eux.relaterte.rinasaker.webapp.model.RelaterteRinasakerForespørsel
 import no.nav.eux.relaterte.rinasaker.webapp.model.RelaterteRinasakerGruppe
+import no.nav.eux.relaterte.rinasaker.webapp.model.RelaterteRinasakerOppdatering
 
 
 val expectedRelaterteRinasakerGruppe = RelaterteRinasakerGruppe(
@@ -12,7 +14,7 @@ val expectedRelaterteRinasakerGruppe = RelaterteRinasakerGruppe(
         RelaterteRinasaker(
             relaterteRinasakerId = uuid1,
             beskrivelse = "En forespørsel",
-            offsetDateTime1
+            opprettetDato = offsetDateTime1
         )
     )
 )
@@ -33,6 +35,17 @@ val expectedRelaterteRinasakerGruppeEnTilMange = RelaterteRinasakerGruppe(
     )
 )
 
+val expectedRelaterteRinasakerGruppeKunB = RelaterteRinasakerGruppe(
+    listOf(
+        RelaterteRinasaker(
+            relaterteRinasakerId = uuid1,
+            beskrivelse = "En forespørsel",
+            rinasakIdList = listOf("a", "b")
+
+        )
+    )
+)
+
 val expectedRelaterteRinasakerGruppeEnTilMangeOppdatert = RelaterteRinasakerGruppe(
     listOf(
         RelaterteRinasaker(
@@ -47,4 +60,41 @@ val expectedRelaterteRinasakerGruppeEnTilMangeOppdatert = RelaterteRinasakerGrup
             rinasakIdList = listOf("a", "c")
         )
     )
+)
+
+val expectedRelaterteRinasakerGruppeEnTilMangeOppdatertNyBeskrivelse = RelaterteRinasakerGruppe(
+    listOf(
+        RelaterteRinasaker(
+            relaterteRinasakerId = uuid1,
+            beskrivelse = "Ny beskrivelse",
+            rinasakIdList = listOf("a", "b")
+
+        ),
+        RelaterteRinasaker(
+            relaterteRinasakerId = uuid2,
+            beskrivelse = "En forespørsel",
+            rinasakIdList = listOf("a", "c")
+        )
+    )
+)
+
+val relaterteRinasakerForespørsel = listOf(
+    RelaterteRinasakerForespørsel(
+        relaterteRinasakerId = uuid1,
+        rinasakIdList = listOf("a", "b")
+    ),
+    RelaterteRinasakerForespørsel(
+        relaterteRinasakerId = uuid2,
+        rinasakIdList = listOf("a", "c")
+    ),
+)
+
+val relaterteRinasakerOppdatering = RelaterteRinasakerOppdatering(
+    relaterteRinasakerId = uuid1,
+    rinasakIdList = listOf("a", "b2"),
+)
+
+val relaterteRinasakerOppdateringNyBeskrivelse = RelaterteRinasakerOppdatering(
+    relaterteRinasakerId = uuid1,
+    beskrivelse = "Ny beskrivelse"
 )
