@@ -43,5 +43,4 @@ jobs:
             INGRESS=${{ env.INGRESS }},\
             SERVICEUSER=${{ env.SERVICEUSER }},\
             DATABASE_NAME=${{ env.DATABASE_NAME }}"
-          VARS: deploy/${{ env.VARS_FILE }}
           PRINT_PAYLOAD: true
