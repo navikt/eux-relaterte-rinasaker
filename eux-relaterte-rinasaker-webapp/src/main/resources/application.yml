@@ -10,10 +10,6 @@ spring:
       minimum-idle: 1
       initialization-fail-timeout: 60000
 
-  flyway:
-    clean-on-validation-error: true
-    clean-disabled: false
-
   jpa:
     open-in-view: false
 
