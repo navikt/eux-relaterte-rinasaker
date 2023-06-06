@@ -24,6 +24,16 @@ class RelaterteRinasakerApiImpl(
         .toOkResponseEntity()
 
     @Protected
+    override fun relaterteRinasakerSearchSok(
+        relaterteRinasakerSearchCriteriaType: RelaterteRinasakerSearchCriteriaType,
+        userId: String?,
+    ) = service
+        .search(relaterteRinasakerSearchCriteriaType.relaterteRinasakerSearchCriteria)
+        .toRelaterteRinasakerType()
+        .toRelaterteRinasakerSearchResponseType()
+        .toOkResponseEntity()
+
+    @Protected
     override fun opprettRelaterteRinasaker(
         relaterteRinasakerCreateType: List<RelaterteRinasakerCreateType>,
         userId: String?

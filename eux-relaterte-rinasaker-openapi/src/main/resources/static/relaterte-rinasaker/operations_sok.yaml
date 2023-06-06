@@ -1,0 +1,32 @@
+post:
+  tags:
+    - Relaterte Rinasaker API
+  summary: Sok
+  description: Searches Desc
+  operationId: relaterteRinasakerSearchSok
+  parameters:
+    - $ref: '../common/header.yaml#/UserId'
+  requestBody:
+    required: true
+    content:
+      'application/json':
+        schema:
+          $ref: 'model.yaml#/RelaterteRinasakerSearchCriteriaType'
+
+  responses:
+    '200':
+      description: OK
+      content:
+        'application/json':
+          schema:
+            $ref: 'model.yaml#/RelaterteRinasakerSearchResponseType'
+    '400':
+      $ref: '../common/responses.yaml#/400'
+    '401':
+      $ref: '../common/responses.yaml#/401'
+    '403':
+      $ref: '../common/responses.yaml#/403'
+    '409':
+      $ref: '../common/responses.yaml#/409'
+    '500':
+      $ref: '../common/responses.yaml#/500'
