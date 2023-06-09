@@ -44,7 +44,7 @@ patch:
 
   responses:
     '201':
-      $ref: '../common/responses.yaml#/204'
+      $ref: '../common/responses.yaml#/201'
     '400':
       $ref: '../common/responses.yaml#/400'
     '401':

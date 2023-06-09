@@ -96,17 +96,31 @@ class RelaterteRinasakerApiImplTest {
     }
 
     @Test
-    fun `POST relaterterinasaker søk - søk på rinasakId - 201`() {
-        val createResponse = restTemplate.postForEntity<Void>(
+    fun `POST relaterterinasaker søk - søk på rinasakId - 200`() {
+        restTemplate.postForEntity<Void>(
             url = relaterteRinasakerUrl,
             request = relaterteRinasakerForespørsel.httpEntity
         )
-        assertThat(createResponse.statusCode.value()).isEqualTo(201)
-        val searchResponse: RelaterteRinasakerGruppe? = restTemplate.postForObject(
+        val searchResponse = restTemplate.postForEntity<RelaterteRinasakerGruppe>(
             url = relaterteRinasakerSøkUrl,
             request = RelaterteRinasakerSøk(rinasakId = "b").httpEntity
         )
-        assertThat(searchResponse).isEqualTo(expectedRelaterteRinasakerGruppeKunB)
+        assertThat(searchResponse.statusCode.value()).isEqualTo(200)
+        assertThat(searchResponse.body).isEqualTo(expectedRelaterteRinasakerGruppeKunB)
+    }
+
+    @Test
+    fun `POST relaterterinasaker sok - søk på rinasakId - 200`() {
+        restTemplate.postForEntity<Void>(
+            url = relaterteRinasakerUrl,
+            request = relaterteRinasakerForespørsel.httpEntity
+        )
+        val searchResponse = restTemplate.postForEntity<RelaterteRinasakerGruppe>(
+            url = relaterteRinasakerSokUrl,
+            request = RelaterteRinasakerSøk(rinasakId = "b").httpEntity
+        )
+        assertThat(searchResponse.statusCode.value()).isEqualTo(200)
+        assertThat(searchResponse.body).isEqualTo(expectedRelaterteRinasakerGruppeKunB)
     }
 
     @Test
