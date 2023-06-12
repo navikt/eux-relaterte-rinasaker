@@ -64,6 +64,12 @@ spec:
         - application: eux-neessi-q2
           namespace: eessibasis
           cluster: dev-fss
+        - application: eux-neessi-q1
+          namespace: eessibasis
+          cluster: dev-gcp
+        - application: eux-neessi-q2
+          namespace: eessibasis
+          cluster: dev-gcp
         - application: eux-neessi
           namespace: eessibasis
           cluster: prod-fss
