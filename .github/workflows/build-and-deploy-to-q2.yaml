@@ -112,20 +112,14 @@ jobs:
     needs: build
     steps:
       - uses: actions/checkout@v3
-      - name: 'Deploy to q2'
-        run: |
-          echo "CLUSTER=dev-gcp" >> $GITHUB_ENV
-          echo "NAME=eux-relaterte-rinasaker-q2" >> $GITHUB_ENV
-          echo "INGRESS=https://eux-relaterte-rinasaker-q2.intern.dev.nav.no" >> $GITHUB_ENV
-          echo "DATABASE_NAME=eux-relaterte-rinasaker-db-q2" >> $GITHUB_ENV
       - name: 'Calling deploy action (eessibasis namespace)'
         uses: nais/deploy/actions/deploy@v1
         env:
           APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
-          CLUSTER: ${{ env.CLUSTER }}
+          CLUSTER: dev-gcp
           RESOURCE: ./.nais/nais.yaml
-          VAR: "NAME=${{ env.NAME }},\
+          VAR: "NAME=eux-relaterte-rinasaker-q2,\
             IMAGE=${{ needs.build.outputs.docker-image }},\
-            INGRESS=${{ env.INGRESS }},\
-            DATABASE_NAME=${{ env.DATABASE_NAME }}"
+            INGRESS=https://eux-relaterte-rinasaker-q2.intern.dev.nav.no,\
+            DATABASE_NAME=eux-relaterte-rinasaker-db-q2"
           PRINT_PAYLOAD: true
