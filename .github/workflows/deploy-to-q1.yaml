@@ -25,7 +25,6 @@ jobs:
           echo "CLUSTER=dev-gcp" >> $GITHUB_ENV
           echo "NAME=eux-relaterte-rinasaker-q1" >> $GITHUB_ENV
           echo "INGRESS=https://eux-relaterte-rinasaker-q1.intern.dev.nav.no" >> $GITHUB_ENV
-          echo "SERVICEUSER=/serviceuser/data/dev/srveux-app" >> $GITHUB_ENV
           echo "DATABASE_NAME=eux-relaterte-rinasaker-db-q1" >> $GITHUB_ENV
       - name: 'Calling deploy action (eessibasis namespace)'
         uses: nais/deploy/actions/deploy@v1
@@ -36,6 +35,5 @@ jobs:
           VAR: "NAME=${{ env.NAME }},\
             IMAGE=${{ env.DOCKER_IMAGE }},\
             INGRESS=${{ env.INGRESS }},\
-            SERVICEUSER=${{ env.SERVICEUSER }},\
             DATABASE_NAME=${{ env.DATABASE_NAME }}"
           PRINT_PAYLOAD: true
