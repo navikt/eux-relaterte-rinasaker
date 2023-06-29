@@ -73,3 +73,6 @@ spec:
         - application: eux-neessi
           namespace: eessibasis
           cluster: prod-fss
+        - application: eux-neessi
+          namespace: eessibasis
+          cluster: prod-gcp
