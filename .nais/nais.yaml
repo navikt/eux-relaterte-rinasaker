@@ -1,20 +1,20 @@
 kind: Application
 apiVersion: nais.io/v1alpha1
 metadata:
-  name: {{ NAME }}
+  name: {{ name }}
   namespace: eessibasis
   labels:
     team: eessibasis
 spec:
-  image: {{ IMAGE }}
+  image: {{ image }}
   ingresses:
-    - {{ INGRESS }}
+    - {{ ingress }}
   gcp:
     sqlInstances:
       - type: POSTGRES_14
         diskAutoresize: true
         databases:
-          - name: {{ DATABASE_NAME }}
+          - name: {{ database.name }}
             envVarPrefix:
               DATABASE
   liveness:
@@ -48,7 +48,7 @@ spec:
       enabled: true
       allowAllUsers: true
       replyURLs:
-        - "{{ INGRESS }}/callback"
+        - "{{ ingress }}/callback"
       claims:
         extra:
           - "NAVident"
@@ -58,18 +58,9 @@ spec:
   accessPolicy:
     inbound:
       rules:
-        - application: eux-neessi-q1
-          namespace: eessibasis
-          cluster: dev-fss
-        - application: eux-neessi-q2
-          namespace: eessibasis
-          cluster: dev-fss
-        - application: eux-neessi-q1
-          namespace: eessibasis
-          cluster: dev-gcp
-        - application: eux-neessi-q2
-          namespace: eessibasis
-          cluster: dev-gcp
-        - application: eux-neessi
-          namespace: eessibasis
-          cluster: prod-fss
+        - application: {{ application.eux-neessi.name }}
+          namespace: {{ application.eux-neessi.namespace }}
+          cluster: {{ cluster.fss }}
+        - application: {{ application.eux-neessi.name }}
+          namespace: {{ application.eux-neessi.namespace }}
+          cluster: {{ cluster.gcp }}

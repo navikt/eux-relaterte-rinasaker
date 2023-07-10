@@ -117,9 +117,7 @@ jobs:
         env:
           APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
           CLUSTER: dev-gcp
-          RESOURCE: ./.nais/nais.yaml
-          VAR: "NAME=eux-relaterte-rinasaker-q2,\
-            IMAGE=${{ needs.build.outputs.docker-image }},\
-            INGRESS=https://eux-relaterte-rinasaker-q2.intern.dev.nav.no,\
-            DATABASE_NAME=eux-relaterte-rinasaker-db-q2"
+          RESOURCE: .nais/nais.yaml
+          VAR: image=${{ needs.build.outputs.docker-image }}
+          VARS: .nais/q2.yaml
           PRINT_PAYLOAD: true
