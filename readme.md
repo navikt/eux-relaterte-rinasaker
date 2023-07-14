@@ -5,10 +5,8 @@ for å knytte og navigere mellom relaterte saker.
 
 ## Brukte teknologier
 * Kotlin
-* Ktor
-* Gradle
-* Kotest
-* Jackson
+* Spring
+* Maven
 
 #### Avhengigheter
 
