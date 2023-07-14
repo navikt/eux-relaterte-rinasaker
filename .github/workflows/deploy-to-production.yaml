@@ -22,14 +22,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - name: 'Deploy to production'
-        if: github.event.inputs.environment == 'prod'
-        run: |
-          echo "DOCKER_IMAGE=${{ env.IMAGE }}:${{ github.event.inputs.version }}" >> $GITHUB_ENV
-          echo "CLUSTER=prod-gcp" >> $GITHUB_ENV
-          echo "NAME=${{ env.APP_NAME }}" >> $GITHUB_ENV
-          echo "INGRESS=https://eux-relaterte-rinasaker.intern.nav.no" >> $GITHUB_ENV
-          echo "DATABASE_NAME=eux-relaterte-rinasaker-db" >> $GITHUB_ENV
       - name: 'Calling deploy action (eessibasis namespace)'
         if: github.event.inputs.environment == 'prod'
         uses: nais/deploy/actions/deploy@v1
