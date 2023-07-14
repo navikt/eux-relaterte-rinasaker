@@ -35,10 +35,8 @@ jobs:
         uses: nais/deploy/actions/deploy@v1
         env:
           APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
-          CLUSTER: ${{ env.CLUSTER }}
-          RESOURCE: ./.nais/nais.yaml
-          VAR: "NAME=${{ env.NAME }},\
-            IMAGE=${{ env.DOCKER_IMAGE }},\
-            INGRESS=${{ env.INGRESS }},\
-            DATABASE_NAME=${{ env.DATABASE_NAME }}"
+          CLUSTER: dev-gcp
+          RESOURCE: .nais/nais.yaml
+          VAR: image=${{ needs.build.outputs.docker-image }}
+          VARS: .nais/prod.yaml
           PRINT_PAYLOAD: true
