@@ -1,7 +1,18 @@
 ### EUX Relaterte Rinasaker
 
 Service for å håndtere sammenknytning av rinasaker. Benyttes i hovedsak av eux neessi 
-for å navigere mellom relaterte saker.
+for å knytte og navigere mellom relaterte saker.
+
+## Brukte teknologier
+* Kotlin
+* Ktor
+* Gradle
+* Kotest
+* Jackson
+
+#### Avhengigheter
+
+* JDK 17
 
 #### Kjøring av tester lokalt
 
