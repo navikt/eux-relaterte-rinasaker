@@ -10,7 +10,7 @@ on:
 
 env:
   APP_NAME: eux-relaterte-rinasaker
-  IMAGE: docker.pkg.github.com/${{ github.repository }}/eux-relaterte-rinasaker
+  IMAGE: ghcr.io/${{ github.repository }}/eux-relaterte-rinasaker
   READER_TOKEN: ${{ secrets.READER_TOKEN }}
 
 jobs:
