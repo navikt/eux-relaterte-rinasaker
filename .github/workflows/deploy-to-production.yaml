@@ -29,6 +29,6 @@ jobs:
           APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
           CLUSTER: dev-gcp
           RESOURCE: .nais/nais.yaml
-          VAR: image=${{ needs.build.outputs.docker-image }}
+          VAR: image=${{ env.IMAGE }}:${{ github.event.inputs.version }}
           VARS: .nais/prod.yaml
           PRINT_PAYLOAD: true
