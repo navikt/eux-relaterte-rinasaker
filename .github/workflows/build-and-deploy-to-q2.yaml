@@ -1,6 +1,11 @@
 name: Build and deploy to q2
 run-name: Deploy [${{ github.ref_name }}] to NAIS, dev-gcp, q2
 
+permissions:
+  deployments: write
+  packages: write
+  contents: write
+
 on:
   workflow_dispatch:
     inputs:
