@@ -55,6 +55,8 @@ spec:
     sidecar:
       enabled: true
       autoLogin: true
+      autoLoginIgnorePaths:
+        - /api/**
   accessPolicy:
     inbound:
       rules:
