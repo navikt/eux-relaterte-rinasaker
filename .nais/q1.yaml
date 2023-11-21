@@ -4,7 +4,7 @@ database:
   name: eux-relaterte-rinasaker-db-q1
 application:
   eux-neessi:
-    name: eux-neessi-q2
+    name: eux-neessi-q1
     namespace: eessibasis
 cluster:
   fss: dev-fss
