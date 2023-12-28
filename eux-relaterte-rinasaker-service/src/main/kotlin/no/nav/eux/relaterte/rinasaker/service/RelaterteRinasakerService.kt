@@ -1,5 +1,6 @@
 package no.nav.eux.relaterte.rinasaker.service
 
+import io.github.oshai.kotlinlogging.KotlinLogging.logger
 import no.nav.eux.relaterte.rinasaker.model.RelaterteRinasakerGruppe
 import no.nav.eux.relaterte.rinasaker.model.RelaterteRinasakerGruppeCreateRequest
 import no.nav.eux.relaterte.rinasaker.model.RelaterteRinasakerGruppePatch
@@ -13,6 +14,8 @@ import org.springframework.transaction.annotation.Transactional
 class RelaterteRinasakerService(
     val repository: RelaterteRinasakerRepository
 ) {
+
+    val log = logger {}
 
     @Transactional
     fun create(
@@ -37,6 +40,7 @@ class RelaterteRinasakerService(
     ): List<RelaterteRinasakerGruppe> =
         searchCriteria
             .rinasakId
+            ?.also { log.info { "søk på ${searchCriteria.rinasakId}" } }
             ?.let { repository.findAllByRinasakIdListIn(listOf(it)) }
             ?: repository.findAll().sortedBy { it.relaterteRinasakerGruppeId }
 }

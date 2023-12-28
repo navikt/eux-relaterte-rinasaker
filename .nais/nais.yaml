@@ -66,3 +66,6 @@ spec:
         - application: {{ application.eux-neessi.name }}
           namespace: {{ application.eux-neessi.namespace }}
           cluster: {{ cluster.gcp }}
+  observability:
+    tracing:
+      enabled: true
