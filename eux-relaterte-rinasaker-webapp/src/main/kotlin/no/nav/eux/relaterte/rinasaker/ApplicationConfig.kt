@@ -15,5 +15,5 @@ class ApplicationConfig(
 
     @Bean
     fun requestIdMdcFilter() = RequestIdMdcFilter()
-    
+
 }
