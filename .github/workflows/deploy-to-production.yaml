@@ -1,6 +1,12 @@
 name: Deploy to production
 run-name: Deploy version ${{ github.event.inputs.version }} to NAIS, prod-gcp, production
 
+permissions:
+  deployments: write
+  packages: write
+  contents: write
+  id-token: write
+
 on:
   workflow_dispatch:
     inputs:
