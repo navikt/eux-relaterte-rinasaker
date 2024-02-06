@@ -13,6 +13,9 @@ spring:
   jpa:
     open-in-view: false
 
+  main:
+    banner-mode: "off"
+
 no.nav.security.jwt:
   issuer:
     azuread:

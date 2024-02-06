@@ -82,26 +82,24 @@ jobs:
           --settings ./.github/settings.xml
           --no-transfer-progress
 
-      - name: Build docker image
-        run: >
-          docker build -t ${IMAGE}:${{ steps.versions.outputs.version }} .
-
-      - name: Login to Github Package Registry
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: >
-          docker login ghcr.io -u ${GITHUB_REPOSITORY} -p ${GITHUB_TOKEN}
-
-      - name: Push Docker image
-        run: >
-          docker push ${IMAGE}:${{ steps.versions.outputs.version }}
+      - name: Push docker image to GAR
+        uses: nais/docker-build-push@v0
+        id: docker-build-push
+        with:
+          team: eessibasis
+          tag: ${{ steps.versions.outputs.version }}
+          identity_provider: ${{ secrets.NAIS_WORKLOAD_IDENTITY_PROVIDER }}
+          project_id: ${{ vars.NAIS_MANAGEMENT_PROJECT_ID }}
 
       - name: Echo Version
         run: echo "### Version ${{ steps.versions.outputs.version }}" >> $GITHUB_STEP_SUMMARY
 
+      - name: Echo Image
+        run: echo "### Image ${{ steps.docker-build-push.outputs.image }}" >> $GITHUB_STEP_SUMMARY
+
     outputs:
       docker-image: >
-        ${{ env.IMAGE }}:${{ steps.versions.outputs.version }}
+        ${{ steps.docker-build-push.outputs.image }}
 
   deploy:
     name: 'Deploy to NAIS'
@@ -110,9 +108,8 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: 'Calling deploy action (eessibasis namespace)'
-        uses: nais/deploy/actions/deploy@v1
+        uses: nais/deploy/actions/deploy@v2
         env:
-          APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
           CLUSTER: dev-gcp
           RESOURCE: .nais/nais.yaml
           VAR: image=${{ needs.build.outputs.docker-image }}

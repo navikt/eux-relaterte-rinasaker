@@ -4,8 +4,8 @@ run-name: Deploy version ${{ github.event.inputs.version }} to NAIS, prod-gcp, p
 on:
   workflow_dispatch:
     inputs:
-      version:
-        description: 'New version to deploy'
+      image:
+        description: 'New image to deploy'
         required: true
       environment:
         description: 'Type prod'
@@ -13,7 +13,6 @@ on:
 
 env:
   APP_NAME: eux-relaterte-rinasaker
-  IMAGE: ghcr.io/${{ github.repository }}/eux-relaterte-rinasaker
   READER_TOKEN: ${{ secrets.READER_TOKEN }}
 
 jobs:
@@ -21,14 +20,13 @@ jobs:
     name: 'Deploy to NAIS'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: 'Calling deploy action (eessibasis namespace)'
         if: github.event.inputs.environment == 'prod'
-        uses: nais/deploy/actions/deploy@v1
+        uses: nais/deploy/actions/deploy@v2
         env:
-          APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
           CLUSTER: prod-gcp
           RESOURCE: .nais/nais.yaml
-          VAR: image=${{ env.IMAGE }}:${{ github.event.inputs.version }}
+          VAR: image=${{ github.event.inputs.image }}
           VARS: .nais/prod.yaml
           PRINT_PAYLOAD: true
