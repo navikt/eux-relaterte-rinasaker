@@ -1,11 +1,17 @@
 name: Deploy to q1
 run-name: Deploy version ${{ github.event.inputs.version }} to NAIS, dev-gcp, q1
 
+permissions:
+  deployments: write
+  packages: write
+  contents: write
+  id-token: write
+
 on:
   workflow_dispatch:
     inputs:
-      version:
-        description: 'New version to deploy'
+      image:
+        description: 'New image to deploy'
         required: true
 
 env:
@@ -18,11 +24,10 @@ jobs:
     name: 'Deploy to NAIS'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: 'Calling deploy action (eessibasis namespace)'
-        uses: nais/deploy/actions/deploy@v1
+        uses: nais/deploy/actions/deploy@v2
         env:
-          APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
           CLUSTER: dev-gcp
           RESOURCE: .nais/nais.yaml
           VAR: image=${{ env.IMAGE }}:${{ github.event.inputs.version }}
