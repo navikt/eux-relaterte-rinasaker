@@ -30,6 +30,6 @@ jobs:
         env:
           CLUSTER: dev-gcp
           RESOURCE: .nais/nais.yaml
-          VAR: image=${{ env.IMAGE }}:${{ github.event.inputs.version }}
+          VAR: image=${{ github.event.inputs.image }}
           VARS: .nais/q1.yaml
           PRINT_PAYLOAD: true
