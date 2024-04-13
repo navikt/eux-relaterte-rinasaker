@@ -66,5 +66,6 @@ spec:
           namespace: {{ application.eux-neessi.namespace }}
           cluster: {{ cluster.gcp }}
   observability:
-    tracing:
+    autoInstrumentation:
       enabled: true
+      runtime: java
