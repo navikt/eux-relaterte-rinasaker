@@ -20,8 +20,8 @@ spec:
   liveness:
     path: /actuator/health
     port: 8080
-    initialDelay: 20
-    timeout: 70
+    initialDelay: 40
+    timeout: 90
   port: 8080
   prometheus:
     enabled: true
@@ -40,7 +40,7 @@ spec:
       cpu: "1"
       memory: 512Mi
     requests:
-      cpu: 250m
+      cpu: 800m
       memory: 512Mi
   azure:
     application:
