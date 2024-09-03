@@ -2,6 +2,7 @@ name: eux-relaterte-rinasaker
 ingress: https://eux-relaterte-rinasaker.intern.nav.no
 database:
   name: eux-relaterte-rinasaker-db
+  tier: db-custom-1-3840
 application:
   eux-neessi:
     name: eux-neessi
