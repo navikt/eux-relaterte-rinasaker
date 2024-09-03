@@ -23,8 +23,7 @@ import org.springframework.http.HttpHeaders
 import org.springframework.http.MediaType.APPLICATION_JSON
 import org.springframework.jdbc.core.JdbcTemplate
 import org.springframework.test.context.ActiveProfiles
-import org.springframework.test.jdbc.JdbcTestUtils.*
-import java.util.*
+import org.springframework.test.jdbc.JdbcTestUtils.deleteFromTables
 
 @SpringBootTest(
     classes = [Application::class],
@@ -129,7 +128,7 @@ class RelaterteRinasakerApiImplTest {
             url = relaterteRinasakerUrl,
             request = relaterteRinasakerForespørsel.httpEntity
         )
-        restTemplate.patchForObject<Void>(
+        restTemplate.patchForObject<Unit>(
             url = relaterteRinasakerUrl,
             request = relaterteRinasakerOppdatering.httpEntity
         )
@@ -146,7 +145,7 @@ class RelaterteRinasakerApiImplTest {
             url = relaterteRinasakerUrl,
             request = relaterteRinasakerForespørsel.httpEntity
         )
-        restTemplate.patchForObject<Void>(
+        restTemplate.patchForObject<Unit>(
             url = relaterteRinasakerUrl,
             request = relaterteRinasakerOppdateringNyBeskrivelse.httpEntity
         )
