@@ -16,6 +16,11 @@ spring:
   main:
     banner-mode: "off"
 
+logging:
+  structured:
+    format:
+      console: logstash
+
 no.nav.security.jwt:
   issuer:
     azuread:
