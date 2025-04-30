@@ -38,7 +38,7 @@ spec:
     cpuThresholdPercentage: 90
   resources:
     requests:
-      cpu: 100m
+      cpu: 10m
       memory: 512Mi
   azure:
     application:
