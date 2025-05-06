@@ -10,3 +10,6 @@ application:
 cluster:
   fss: dev-fss
   gcp: dev-gcp
+replicas:
+  min: 1
+  max: 2
