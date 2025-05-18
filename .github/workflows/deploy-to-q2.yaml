@@ -1,0 +1,35 @@
+name: Deploy to q2
+run-name: Deploy version ${{ github.event.inputs.version }} to NAIS, dev-gcp, q1
+
+permissions:
+  deployments: write
+  packages: write
+  contents: write
+  id-token: write
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'New version to deploy'
+        required: true
+
+env:
+  APP_NAME: eux-relaterte-rinasaker
+  IMAGE: europe-north1-docker.pkg.dev/nais-management-233d/eessibasis/eux-relaterte-rinasaker
+  READER_TOKEN: ${{ secrets.READER_TOKEN }}
+
+jobs:
+  deploy:
+    name: 'Deploy to NAIS'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: 'Calling deploy action (eessibasis namespace)'
+        uses: nais/deploy/actions/deploy@v2
+        env:
+          CLUSTER: dev-gcp
+          RESOURCE: .nais/nais.yaml
+          VAR: "image=${{ env.IMAGE }}:${{ github.event.inputs.version }}"
+          VARS: .nais/q2.yaml
+          PRINT_PAYLOAD: true
