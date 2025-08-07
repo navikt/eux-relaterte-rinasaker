@@ -9,19 +9,19 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 public class SecurityConfig {
 
-    @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http
-            .authorizeHttpRequests(authz -> authz
-              .requestMatchers("/actuator/health", "/actuator/health/**").permitAll()
-              .requestMatchers("/actuator/prometheus").permitAll()
-              .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
-              .anyRequest().authenticated()
-            )
-            .oauth2ResourceServer(oauth2 -> oauth2
-                .jwt(Customizer.withDefaults())
-            );
-
-        return http.build();
-    }
+//    @Bean
+//    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+//        http
+//            .authorizeHttpRequests(authz -> authz
+//              .requestMatchers("/actuator/health", "/actuator/health/**").permitAll()
+//              .requestMatchers("/actuator/prometheus").permitAll()
+//              .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
+//              .anyRequest().authenticated()
+//            )
+//            .oauth2ResourceServer(oauth2 -> oauth2
+//                .jwt(Customizer.withDefaults())
+//            );
+//
+//        return http.build();
+//    }
 }
