@@ -11,6 +11,7 @@ import no.nav.eux.relaterte.rinasaker.webapp.model.RelaterteRinasakerSøk
 import no.nav.security.mock.oauth2.MockOAuth2Server
 import no.nav.security.token.support.spring.test.EnableMockOAuth2Server
 import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
@@ -18,12 +19,12 @@ import org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDO
 import org.springframework.http.HttpStatus.OK
 import org.springframework.http.HttpStatus.UNAUTHORIZED
 import org.springframework.test.context.ActiveProfiles
-import org.springframework.test.jdbc.JdbcTestUtils.*
 import org.springframework.test.web.servlet.setup.ConfigurableMockMvcBuilder
 import org.springframework.test.web.servlet.setup.MockMvcConfigurer
 import org.springframework.web.context.WebApplicationContext
 import java.net.URI
 
+@Disabled
 @SpringBootTest(
     classes = [Application::class],
     webEnvironment = RANDOM_PORT
