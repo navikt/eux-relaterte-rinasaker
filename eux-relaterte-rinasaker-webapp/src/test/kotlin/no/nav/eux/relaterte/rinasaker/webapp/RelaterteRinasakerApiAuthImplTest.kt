@@ -11,20 +11,18 @@ import no.nav.eux.relaterte.rinasaker.webapp.model.RelaterteRinasakerSøk
 import no.nav.security.mock.oauth2.MockOAuth2Server
 import no.nav.security.token.support.spring.test.EnableMockOAuth2Server
 import org.junit.jupiter.api.BeforeEach
-import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT
+import org.springframework.http.HttpStatus.FORBIDDEN
 import org.springframework.http.HttpStatus.OK
-import org.springframework.http.HttpStatus.UNAUTHORIZED
 import org.springframework.test.context.ActiveProfiles
 import org.springframework.test.web.servlet.setup.ConfigurableMockMvcBuilder
 import org.springframework.test.web.servlet.setup.MockMvcConfigurer
 import org.springframework.web.context.WebApplicationContext
 import java.net.URI
 
-@Disabled
 @SpringBootTest(
     classes = [Application::class],
     webEnvironment = RANDOM_PORT
@@ -46,7 +44,7 @@ class RelaterteRinasakerApiAuthImplTest {
     }
 
     @Test
-    fun `POST relaterterinasaker søk - no token in request - 401`() {
+    fun `POST relaterterinasaker søk - no token in request - 403`() {
         given()
             .contentType(JSON)
             .body(RelaterteRinasakerSøk())
@@ -55,7 +53,7 @@ class RelaterteRinasakerApiAuthImplTest {
             .then()
             .log()
             .ifValidationFails()
-            .statusCode(UNAUTHORIZED.value())
+            .statusCode(FORBIDDEN.value())
     }
 
     @Test

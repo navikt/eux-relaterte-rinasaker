@@ -3,12 +3,6 @@ spring:
     oauth2:
       resourceserver:
         jwt:
-          issuer-uri: http://localhost:8089
+          issuer-uri: http://localhost:${mock-oauth2-server.port}/default
           audiences:
             - test-client-id
-
-no.nav.security.jwt:
-  issuer:
-    azuread:
-      discoveryurl: http://localhost:8089/.well-known/openid_configuration
-      accepted-audience: test-client-id

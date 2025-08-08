@@ -1,6 +1,5 @@
 package no.nav.eux.relaterte.rinasaker
 
-import no.nav.security.token.support.spring.api.EnableJwtTokenValidation
 import org.openapitools.SpringDocConfiguration
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.context.properties.EnableConfigurationProperties
