@@ -1,6 +1,6 @@
 package no.nav.eux.relaterte.rinasaker.webapp.dataset
 
-import no.nav.eux.relaterte.rinasaker.webapp.common.offsetDateTime1
+import no.nav.eux.relaterte.rinasaker.webapp.common.offsetDateTime
 import no.nav.eux.relaterte.rinasaker.webapp.common.uuid1
 import no.nav.eux.relaterte.rinasaker.webapp.common.uuid2
 import no.nav.eux.relaterte.rinasaker.webapp.model.RelaterteRinasaker
@@ -14,7 +14,7 @@ val expectedRelaterteRinasakerGruppe = RelaterteRinasakerGruppe(
         RelaterteRinasaker(
             relaterteRinasakerId = uuid1,
             beskrivelse = "En forespørsel",
-            opprettetDato = offsetDateTime1
+            opprettetDato = offsetDateTime
         )
     )
 )
