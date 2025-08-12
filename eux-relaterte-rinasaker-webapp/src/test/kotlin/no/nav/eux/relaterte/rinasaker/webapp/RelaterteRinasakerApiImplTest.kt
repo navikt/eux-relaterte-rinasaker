@@ -26,7 +26,6 @@ import org.springframework.jdbc.core.JdbcTemplate
 import org.springframework.test.context.ActiveProfiles
 import org.springframework.test.jdbc.JdbcTestUtils.deleteFromTables
 
-@Disabled
 @SpringBootTest(
     classes = [Application::class],
     webEnvironment = RANDOM_PORT
