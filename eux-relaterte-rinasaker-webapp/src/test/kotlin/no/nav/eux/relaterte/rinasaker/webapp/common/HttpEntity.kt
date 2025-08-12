@@ -16,15 +16,15 @@ fun <T> T.httpEntity(mockOAuth2Server: MockOAuth2Server): HttpEntity<T> {
 
 val MockOAuth2Server.token: String
     get() = this
-        .issueToken("issuer1", "theclientid", defaultOAuth2TokenCallback)
+        .issueToken("default", "test-client-id", defaultOAuth2TokenCallback)
         .serialize()
 
 var defaultOAuth2TokenCallback =
     DefaultOAuth2TokenCallback(
-        "issuer1",
+        "default",
         "subject1",
         JOSEObjectType.JWT.type,
-        listOf("demoapplication"),
+        listOf("test-client-id"),
         emptyMap(),
         3600
     )

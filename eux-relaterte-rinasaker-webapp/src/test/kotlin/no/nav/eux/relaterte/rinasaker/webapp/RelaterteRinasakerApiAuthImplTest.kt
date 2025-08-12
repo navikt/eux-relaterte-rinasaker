@@ -15,10 +15,9 @@ import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT
+import org.springframework.http.HttpStatus.FORBIDDEN
 import org.springframework.http.HttpStatus.OK
-import org.springframework.http.HttpStatus.UNAUTHORIZED
 import org.springframework.test.context.ActiveProfiles
-import org.springframework.test.jdbc.JdbcTestUtils.*
 import org.springframework.test.web.servlet.setup.ConfigurableMockMvcBuilder
 import org.springframework.test.web.servlet.setup.MockMvcConfigurer
 import org.springframework.web.context.WebApplicationContext
@@ -45,7 +44,7 @@ class RelaterteRinasakerApiAuthImplTest {
     }
 
     @Test
-    fun `POST relaterterinasaker søk - no token in request - 401`() {
+    fun `POST relaterterinasaker søk - no token in request - 403`() {
         given()
             .contentType(JSON)
             .body(RelaterteRinasakerSøk())
@@ -54,7 +53,7 @@ class RelaterteRinasakerApiAuthImplTest {
             .then()
             .log()
             .ifValidationFails()
-            .statusCode(UNAUTHORIZED.value())
+            .statusCode(FORBIDDEN.value())
     }
 
     @Test

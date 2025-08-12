@@ -12,6 +12,8 @@ post:
       'application/json':
         schema:
           $ref: 'model.yaml#/RelaterteRinasakerSearchCriteriaType'
+        example:
+          rinasakId: "12345678"
 
   responses:
     '200':
