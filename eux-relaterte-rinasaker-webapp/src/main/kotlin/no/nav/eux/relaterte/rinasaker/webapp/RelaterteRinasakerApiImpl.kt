@@ -1,6 +1,6 @@
 package no.nav.eux.relaterte.rinasaker.webapp
 
-import no.nav.eux.relaterte.rinasaker.api.RelaterterinasakerApi
+import no.nav.eux.relaterte.rinasaker.api.RelaterteRinasakerApi
 import no.nav.eux.relaterte.rinasaker.model.RelaterteRinasakerCreateType
 import no.nav.eux.relaterte.rinasaker.model.RelaterteRinasakerPatchType
 import no.nav.eux.relaterte.rinasaker.model.RelaterteRinasakerSearchCriteriaType
@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 class RelaterteRinasakerApiImpl(
     val service: RelaterteRinasakerService
-) : RelaterterinasakerApi {
+) : RelaterteRinasakerApi {
 
     override fun relaterteRinasakerSearch(
         relaterteRinasakerSearchCriteriaType: RelaterteRinasakerSearchCriteriaType,

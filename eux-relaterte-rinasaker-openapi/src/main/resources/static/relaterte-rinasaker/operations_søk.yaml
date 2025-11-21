@@ -1,6 +1,6 @@
 post:
   tags:
-    - Relaterte Rinasaker API
+    - Relaterte Rinasaker
   summary: Søk
   description: Searches Desc
   operationId: relaterteRinasakerSearch

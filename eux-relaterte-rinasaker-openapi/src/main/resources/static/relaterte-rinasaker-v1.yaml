@@ -8,13 +8,13 @@ info:
 servers:
   - url: 'http://localhost:8080/api/v1'
 tags:
-  - name: Relaterte Rinasaker API
+  - name: Relaterte Rinasaker
     description: API for å behandle grupper av relaterte rinasaker
 
 paths:
-  '/relaterterinasaker/søk':
+  '/api/v1/relaterterinasaker/søk':
     $ref: 'relaterte-rinasaker/operations_søk.yaml'
-  '/relaterterinasaker/sok':
+  '/api/v1/relaterterinasaker/sok':
     $ref: 'relaterte-rinasaker/operations_sok.yaml'
-  '/relaterterinasaker':
+  '/api/v1/relaterterinasaker':
     $ref: 'relaterte-rinasaker/operations_rot.yaml'
