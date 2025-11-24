@@ -1,7 +1,10 @@
 package no.nav.eux.relaterte.rinasaker.webapp
 
 import no.nav.eux.relaterte.rinasaker.Application
-import no.nav.eux.relaterte.rinasaker.webapp.common.*
+import no.nav.eux.relaterte.rinasaker.webapp.common.relaterteRinasakerSokUrl
+import no.nav.eux.relaterte.rinasaker.webapp.common.relaterteRinasakerSøkUrl
+import no.nav.eux.relaterte.rinasaker.webapp.common.relaterteRinasakerUrl
+import no.nav.eux.relaterte.rinasaker.webapp.common.token
 import no.nav.eux.relaterte.rinasaker.webapp.dataset.*
 import no.nav.eux.relaterte.rinasaker.webapp.model.RelaterteRinasakerForespørsel
 import no.nav.eux.relaterte.rinasaker.webapp.model.RelaterteRinasakerGruppe
@@ -12,19 +15,13 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.boot.resttestclient.TestRestTemplate
-import org.springframework.boot.resttestclient.autoconfigure.AutoConfigureTestRestTemplate
-import org.springframework.boot.resttestclient.patchForObject
-import org.springframework.boot.resttestclient.postForEntity
-import org.springframework.boot.resttestclient.postForObject
+import org.springframework.boot.resttestclient.autoconfigure.AutoConfigureRestTestClient
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT
-import org.springframework.http.HttpEntity
-import org.springframework.http.HttpHeaders
-import org.springframework.http.MediaType.APPLICATION_JSON
 import org.springframework.jdbc.core.JdbcTemplate
 import org.springframework.test.context.ActiveProfiles
 import org.springframework.test.jdbc.JdbcTestUtils.deleteFromTables
+import org.springframework.test.web.servlet.client.RestTestClient
 
 @SpringBootTest(
     classes = [Application::class],
@@ -32,17 +29,17 @@ import org.springframework.test.jdbc.JdbcTestUtils.deleteFromTables
 )
 @ActiveProfiles("test")
 @EnableMockOAuth2Server
-@AutoConfigureTestRestTemplate
+@AutoConfigureRestTestClient
 class RelaterteRinasakerApiImplTest {
 
     @Autowired
     lateinit var mockOAuth2Server: MockOAuth2Server
 
     @Autowired
-    lateinit var restTemplate: TestRestTemplate
+    lateinit var jdbcTemplate: JdbcTemplate
 
     @Autowired
-    lateinit var jdbcTemplate: JdbcTemplate
+    lateinit var client: RestTestClient
 
     @BeforeEach
     fun setUp() {
@@ -53,108 +50,167 @@ class RelaterteRinasakerApiImplTest {
         )
     }
 
-    val <T : Any> T.httpEntity: HttpEntity<T>
-        get() = httpEntity(mockOAuth2Server)
-
     @Test
     fun `POST relaterterinasaker søk - søk uten kriterier - 200`() {
-        val headers = HttpHeaders()
-        headers.contentType = APPLICATION_JSON
-        headers.set("Authorization", "Bearer ${mockOAuth2Server.token}")
-        val entity: HttpEntity<String> = HttpEntity("{}", headers)
-        val response: RelaterteRinasakerGruppe? = restTemplate
-            .postForObject(url = relaterteRinasakerSøkUrl, request = entity)
-        assertThat(response).isEqualTo(RelaterteRinasakerGruppe(emptyList()))
+        val response = client
+            .post()
+            .uri(relaterteRinasakerSøkUrl)
+            .body(RelaterteRinasakerSøk())
+            .header("Authorization", "Bearer ${mockOAuth2Server.token}")
+            .exchange()
+            .expectStatus().isOk
+            .expectBody(RelaterteRinasakerGruppe::class.java)
+            .returnResult()
+        assertThat(response.responseBody).isEqualTo(RelaterteRinasakerGruppe(emptyList()))
     }
 
     @Test
     fun `POST relaterterinasaker - forespørsel, ny sak, tomt søk - 201`() {
-        val createResponse = restTemplate.postForEntity<Void>(
-            relaterteRinasakerUrl,
-            listOf(RelaterteRinasakerForespørsel()).httpEntity
-        )
-        assertThat(createResponse.statusCode.value()).isEqualTo(201)
-        val searchResponse: RelaterteRinasakerGruppe? = restTemplate.postForObject(
-            url = relaterteRinasakerSøkUrl,
-            request = RelaterteRinasakerSøk().httpEntity
-        )
-        assertThat(searchResponse).isEqualTo(expectedRelaterteRinasakerGruppe)
+        client
+            .post()
+            .uri(relaterteRinasakerUrl)
+            .body(listOf(RelaterteRinasakerForespørsel()))
+            .header("Authorization", "Bearer ${mockOAuth2Server.token}")
+            .exchange()
+            .expectStatus().isCreated
+
+        val searchResponse = client
+            .post()
+            .uri(relaterteRinasakerSøkUrl)
+            .body(RelaterteRinasakerSøk())
+            .header("Authorization", "Bearer ${mockOAuth2Server.token}")
+            .exchange()
+            .expectStatus().isOk
+            .expectBody(RelaterteRinasakerGruppe::class.java)
+            .returnResult()
+        assertThat(searchResponse.responseBody).isEqualTo(expectedRelaterteRinasakerGruppe)
     }
 
     @Test
     fun `POST relaterterinasaker - forespørsel, en til mange knytning mellom saker - 201`() {
-        val createResponse = restTemplate.postForEntity<Void>(
-            url = relaterteRinasakerUrl,
-            request = relaterteRinasakerForespørsel.httpEntity
-        )
-        assertThat(createResponse.statusCode.value()).isEqualTo(201)
-        val searchResponse: RelaterteRinasakerGruppe? = restTemplate.postForObject(
-            url = relaterteRinasakerSøkUrl,
-            request = RelaterteRinasakerSøk().httpEntity
-        )
-        assertThat(searchResponse).isEqualTo(expectedRelaterteRinasakerGruppeEnTilMange)
+        client
+            .post()
+            .uri(relaterteRinasakerUrl)
+            .body(relaterteRinasakerForespørsel)
+            .header("Authorization", "Bearer ${mockOAuth2Server.token}")
+            .exchange()
+            .expectStatus().isCreated
+
+        val searchResponse = client
+            .post()
+            .uri(relaterteRinasakerSøkUrl)
+            .body(RelaterteRinasakerSøk())
+            .header("Authorization", "Bearer ${mockOAuth2Server.token}")
+            .exchange()
+            .expectStatus().isOk
+            .expectBody(RelaterteRinasakerGruppe::class.java)
+            .returnResult()
+        assertThat(searchResponse.responseBody).isEqualTo(expectedRelaterteRinasakerGruppeEnTilMange)
     }
 
     @Test
     fun `POST relaterterinasaker søk - søk på rinasakId - 200`() {
-        restTemplate.postForEntity<Void>(
-            url = relaterteRinasakerUrl,
-            request = relaterteRinasakerForespørsel.httpEntity
-        )
-        val searchResponse = restTemplate.postForEntity<RelaterteRinasakerGruppe>(
-            url = relaterteRinasakerSøkUrl,
-            request = RelaterteRinasakerSøk(rinasakId = "b").httpEntity
-        )
-        assertThat(searchResponse.statusCode.value()).isEqualTo(200)
-        assertThat(searchResponse.body).isEqualTo(expectedRelaterteRinasakerGruppeKunB)
+        client
+            .post()
+            .uri(relaterteRinasakerUrl)
+            .body(relaterteRinasakerForespørsel)
+            .header("Authorization", "Bearer ${mockOAuth2Server.token}")
+            .exchange()
+            .expectStatus().isCreated
+
+        val searchResponse = client
+            .post()
+            .uri(relaterteRinasakerSøkUrl)
+            .body(RelaterteRinasakerSøk(rinasakId = "b"))
+            .header("Authorization", "Bearer ${mockOAuth2Server.token}")
+            .exchange()
+            .expectStatus().isOk
+            .expectBody(RelaterteRinasakerGruppe::class.java)
+            .returnResult()
+        assertThat(searchResponse.responseBody).isEqualTo(expectedRelaterteRinasakerGruppeKunB)
     }
 
     @Test
     fun `POST relaterterinasaker sok - søk på rinasakId - 200`() {
-        restTemplate.postForEntity<Void>(
-            url = relaterteRinasakerUrl,
-            request = relaterteRinasakerForespørsel.httpEntity
-        )
-        val searchResponse = restTemplate.postForEntity<RelaterteRinasakerGruppe>(
-            url = relaterteRinasakerSokUrl,
-            request = RelaterteRinasakerSøk(rinasakId = "b").httpEntity
-        )
-        assertThat(searchResponse.statusCode.value()).isEqualTo(200)
-        assertThat(searchResponse.body).isEqualTo(expectedRelaterteRinasakerGruppeKunB)
+        client
+            .post()
+            .uri(relaterteRinasakerUrl)
+            .body(relaterteRinasakerForespørsel)
+            .header("Authorization", "Bearer ${mockOAuth2Server.token}")
+            .exchange()
+            .expectStatus().isCreated
+
+        val searchResponse = client
+            .post()
+            .uri(relaterteRinasakerSokUrl)
+            .body(RelaterteRinasakerSøk(rinasakId = "b"))
+            .header("Authorization", "Bearer ${mockOAuth2Server.token}")
+            .exchange()
+            .expectStatus().isOk
+            .expectBody(RelaterteRinasakerGruppe::class.java)
+            .returnResult()
+        assertThat(searchResponse.responseBody).isEqualTo(expectedRelaterteRinasakerGruppeKunB)
     }
 
     @Test
     fun `PATCH relaterterinasaker - oppdater knytning - 200`() {
-        restTemplate.postForEntity<Void>(
-            url = relaterteRinasakerUrl,
-            request = relaterteRinasakerForespørsel.httpEntity
-        )
-        restTemplate.patchForObject<Unit>(
-            url = relaterteRinasakerUrl,
-            request = relaterteRinasakerOppdatering.httpEntity
-        )
-        val søkResponse: RelaterteRinasakerGruppe? = restTemplate.postForObject(
-            relaterteRinasakerSøkUrl,
-            RelaterteRinasakerSøk().httpEntity
-        )
-        assertThat(søkResponse).isEqualTo(expectedRelaterteRinasakerGruppeEnTilMangeOppdatert)
+        client
+            .post()
+            .uri(relaterteRinasakerUrl)
+            .body(relaterteRinasakerForespørsel)
+            .header("Authorization", "Bearer ${mockOAuth2Server.token}")
+            .exchange()
+            .expectStatus().isCreated
+
+        client
+            .patch()
+            .uri(relaterteRinasakerUrl)
+            .body(relaterteRinasakerOppdatering)
+            .header("Authorization", "Bearer ${mockOAuth2Server.token}")
+            .exchange()
+            .expectStatus().isCreated
+
+        val searchResponse = client
+            .post()
+            .uri(relaterteRinasakerSøkUrl)
+            .body(RelaterteRinasakerSøk())
+            .header("Authorization", "Bearer ${mockOAuth2Server.token}")
+            .exchange()
+            .expectStatus().isOk
+            .expectBody(RelaterteRinasakerGruppe::class.java)
+            .returnResult()
+        assertThat(searchResponse.responseBody).isEqualTo(expectedRelaterteRinasakerGruppeEnTilMangeOppdatert)
     }
 
     @Test
     fun `PATCH relaterterinasaker - oppdater beskrivelse - 200`() {
-        restTemplate.postForEntity<Void>(
-            url = relaterteRinasakerUrl,
-            request = relaterteRinasakerForespørsel.httpEntity
-        )
-        restTemplate.patchForObject<Unit>(
-            url = relaterteRinasakerUrl,
-            request = relaterteRinasakerOppdateringNyBeskrivelse.httpEntity
-        )
-        val søkResponse: RelaterteRinasakerGruppe? = restTemplate.postForObject(
-            relaterteRinasakerSøkUrl,
-            RelaterteRinasakerSøk().httpEntity
-        )
-        assertThat(søkResponse).isEqualTo(expectedRelaterteRinasakerGruppeEnTilMangeOppdatertNyBeskrivelse)
+        client
+            .post()
+            .uri(relaterteRinasakerUrl)
+            .body(relaterteRinasakerForespørsel)
+            .header("Authorization", "Bearer ${mockOAuth2Server.token}")
+            .exchange()
+            .expectStatus().isCreated
+
+        client
+            .patch()
+            .uri(relaterteRinasakerUrl)
+            .body(relaterteRinasakerOppdateringNyBeskrivelse)
+            .header("Authorization", "Bearer ${mockOAuth2Server.token}")
+            .exchange()
+            .expectStatus().isCreated
+
+        val searchResponse = client
+            .post()
+            .uri(relaterteRinasakerSøkUrl)
+            .body(RelaterteRinasakerSøk())
+            .header("Authorization", "Bearer ${mockOAuth2Server.token}")
+            .exchange()
+            .expectStatus().isOk
+            .expectBody(RelaterteRinasakerGruppe::class.java)
+            .returnResult()
+        assertThat(searchResponse.responseBody)
+            .isEqualTo(expectedRelaterteRinasakerGruppeEnTilMangeOppdatertNyBeskrivelse)
     }
 
 }
