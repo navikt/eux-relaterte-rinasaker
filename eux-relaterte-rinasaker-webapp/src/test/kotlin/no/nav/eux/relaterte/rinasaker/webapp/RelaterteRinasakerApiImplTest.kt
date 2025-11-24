@@ -12,12 +12,13 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.boot.resttestclient.TestRestTemplate
+import org.springframework.boot.resttestclient.autoconfigure.AutoConfigureTestRestTemplate
+import org.springframework.boot.resttestclient.patchForObject
+import org.springframework.boot.resttestclient.postForEntity
+import org.springframework.boot.resttestclient.postForObject
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT
-import org.springframework.boot.test.web.client.TestRestTemplate
-import org.springframework.boot.test.web.client.patchForObject
-import org.springframework.boot.test.web.client.postForEntity
-import org.springframework.boot.test.web.client.postForObject
 import org.springframework.http.HttpEntity
 import org.springframework.http.HttpHeaders
 import org.springframework.http.MediaType.APPLICATION_JSON
@@ -31,6 +32,7 @@ import org.springframework.test.jdbc.JdbcTestUtils.deleteFromTables
 )
 @ActiveProfiles("test")
 @EnableMockOAuth2Server
+@AutoConfigureTestRestTemplate
 class RelaterteRinasakerApiImplTest {
 
     @Autowired
@@ -43,7 +45,7 @@ class RelaterteRinasakerApiImplTest {
     lateinit var jdbcTemplate: JdbcTemplate
 
     @BeforeEach
-    fun initialiseRestAssuredMockMvcWebApplicationContext() {
+    fun setUp() {
         deleteFromTables(
             jdbcTemplate,
             "relaterte_rinasaker",
@@ -51,7 +53,7 @@ class RelaterteRinasakerApiImplTest {
         )
     }
 
-    val <T> T.httpEntity: HttpEntity<T>
+    val <T : Any> T.httpEntity: HttpEntity<T>
         get() = httpEntity(mockOAuth2Server)
 
     @Test
@@ -59,7 +61,7 @@ class RelaterteRinasakerApiImplTest {
         val headers = HttpHeaders()
         headers.contentType = APPLICATION_JSON
         headers.set("Authorization", "Bearer ${mockOAuth2Server.token}")
-        val entity: HttpEntity<String> = HttpEntity<String>("{}", headers)
+        val entity: HttpEntity<String> = HttpEntity("{}", headers)
         val response: RelaterteRinasakerGruppe? = restTemplate
             .postForObject(url = relaterteRinasakerSøkUrl, request = entity)
         assertThat(response).isEqualTo(RelaterteRinasakerGruppe(emptyList()))
