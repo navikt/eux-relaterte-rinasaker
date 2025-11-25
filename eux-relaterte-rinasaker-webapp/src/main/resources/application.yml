@@ -17,6 +17,10 @@ spring:
       minimum-idle: 1
       initialization-fail-timeout: 60000
 
+  http:
+    converters:
+      preferred-json-mapper: jackson2
+
   jpa:
     open-in-view: false
 
