@@ -46,7 +46,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           fetch-depth: 0
 
@@ -63,6 +63,7 @@ jobs:
       - name: Set Next Version
         run: >
           mvn eux-versions:set-next -B -e -U --settings ./.github/settings.xml
+          -DmajorVersion=2
           -DnewVersion=${{ github.event.inputs.version }}
           --no-transfer-progress
 
