@@ -69,4 +69,5 @@ spec:
       runtime: java
     logging:
       destinations:
+        - id: elastic
         - id: loki
