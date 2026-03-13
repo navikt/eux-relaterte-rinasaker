@@ -2,23 +2,6 @@
 
 ## Build & Test
 
-```bash
-# Build all modules (uses Maven Daemon)
-mvnd clean install
-
-# Build with standard Maven (CI uses this)
-mvn clean install --settings ./.github/settings.xml --no-transfer-progress -B
-
-# Run a single test class
-mvnd test -pl eux-relaterte-rinasaker-webapp -Dtest=RelaterteRinasakerApiImplTest
-
-# Run a single test method
-mvnd test -pl eux-relaterte-rinasaker-webapp -Dtest="RelaterteRinasakerApiImplTest#POST relaterterinasaker søk - søk uten kriterier - 200"
-
-# Run the app locally
-make run
-```
-
 Tests require a running PostgreSQL 17 instance:
 
 ```bash
