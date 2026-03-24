@@ -1,12 +1,10 @@
 # Copilot Instructions — eux-relaterte-rinasaker
 
-## Build & Test
+## Git workflow
 
-Tests require a running PostgreSQL 17 instance:
-
-```bash
-export DATABASE_HOST=localhost DATABASE_PORT=5432 DATABASE_DATABASE=postgres DATABASE_USERNAME=postgres DATABASE_PASSWORD=postgres
-```
+- **NEVER** commit to `main`
+- **NEVER** push `main`
+- Always work on a branch
 
 ## Architecture
 
