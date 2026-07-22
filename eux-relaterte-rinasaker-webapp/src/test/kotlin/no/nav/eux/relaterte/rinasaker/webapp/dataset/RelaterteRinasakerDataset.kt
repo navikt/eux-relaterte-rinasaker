@@ -6,95 +6,48 @@ import no.nav.eux.relaterte.rinasaker.webapp.common.uuid2
 import no.nav.eux.relaterte.rinasaker.webapp.model.RelaterteRinasaker
 import no.nav.eux.relaterte.rinasaker.webapp.model.RelaterteRinasakerForespørsel
 import no.nav.eux.relaterte.rinasaker.webapp.model.RelaterteRinasakerGruppe
-import no.nav.eux.relaterte.rinasaker.webapp.model.RelaterteRinasakerOppdatering
 
-
-val expectedRelaterteRinasakerGruppe = RelaterteRinasakerGruppe(
-    listOf(
-        RelaterteRinasaker(
-            relaterteRinasakerId = uuid1,
-            beskrivelse = "En forespørsel",
-            opprettetDato = offsetDateTime
-        )
-    )
-)
-
-val expectedRelaterteRinasakerGruppeEnTilMange = RelaterteRinasakerGruppe(
-    listOf(
-        RelaterteRinasaker(
-            relaterteRinasakerId = uuid1,
-            beskrivelse = "En forespørsel",
-            rinasakIdList = listOf("a", "b")
-
-        ),
-        RelaterteRinasaker(
-            relaterteRinasakerId = uuid2,
-            beskrivelse = "En forespørsel",
-            rinasakIdList = listOf("a", "c")
-        )
-    )
-)
-
-val expectedRelaterteRinasakerGruppeKunB = RelaterteRinasakerGruppe(
-    listOf(
-        RelaterteRinasaker(
-            relaterteRinasakerId = uuid1,
-            beskrivelse = "En forespørsel",
-            rinasakIdList = listOf("a", "b")
-
-        )
-    )
-)
-
-val expectedRelaterteRinasakerGruppeEnTilMangeOppdatert = RelaterteRinasakerGruppe(
-    listOf(
-        RelaterteRinasaker(
-            relaterteRinasakerId = uuid1,
-            beskrivelse = "En oppdatering",
-            rinasakIdList = listOf("a", "b2")
-
-        ),
-        RelaterteRinasaker(
-            relaterteRinasakerId = uuid2,
-            beskrivelse = "En forespørsel",
-            rinasakIdList = listOf("a", "c")
-        )
-    )
-)
-
-val expectedRelaterteRinasakerGruppeEnTilMangeOppdatertNyBeskrivelse = RelaterteRinasakerGruppe(
-    listOf(
-        RelaterteRinasaker(
-            relaterteRinasakerId = uuid1,
-            beskrivelse = "Ny beskrivelse",
-            rinasakIdList = listOf("a", "b")
-
-        ),
-        RelaterteRinasaker(
-            relaterteRinasakerId = uuid2,
-            beskrivelse = "En forespørsel",
-            rinasakIdList = listOf("a", "c")
-        )
-    )
-)
-
-val relaterteRinasakerForespørsel = listOf(
-    RelaterteRinasakerForespørsel(
-        relaterteRinasakerId = uuid1,
-        rinasakIdList = listOf("a", "b")
-    ),
-    RelaterteRinasakerForespørsel(
-        relaterteRinasakerId = uuid2,
-        rinasakIdList = listOf("a", "c")
-    ),
-)
-
-val relaterteRinasakerOppdatering = RelaterteRinasakerOppdatering(
+val relaterteRinasakerForespørsel1 = RelaterteRinasakerForespørsel(
     relaterteRinasakerId = uuid1,
-    rinasakIdList = listOf("a", "b2"),
+    beskrivelse = "Første gruppe",
+    rinasakIdList = listOf("a", "b"),
 )
 
-val relaterteRinasakerOppdateringNyBeskrivelse = RelaterteRinasakerOppdatering(
-    relaterteRinasakerId = uuid1,
-    beskrivelse = "Ny beskrivelse"
+val relaterteRinasakerForespørsel2 = RelaterteRinasakerForespørsel(
+    relaterteRinasakerId = uuid2,
+    beskrivelse = "Andre gruppe",
+    rinasakIdList = listOf("a", "c"),
+)
+
+val relaterteRinasakerForespørsler = listOf(
+    relaterteRinasakerForespørsel1,
+    relaterteRinasakerForespørsel2,
+)
+
+val forventetRelaterteRinasakerGruppe = RelaterteRinasakerGruppe(
+    relaterteRinasaker = listOf(
+        RelaterteRinasaker(
+            relaterteRinasakerId = uuid1,
+            beskrivelse = "Første gruppe",
+            opprettetDato = offsetDateTime,
+            rinasakIdList = listOf("a", "b"),
+        ),
+        RelaterteRinasaker(
+            relaterteRinasakerId = uuid2,
+            beskrivelse = "Andre gruppe",
+            opprettetDato = offsetDateTime,
+            rinasakIdList = listOf("a", "c"),
+        ),
+    )
+)
+
+val forventetRelaterteRinasakerGruppeKunB = RelaterteRinasakerGruppe(
+    relaterteRinasaker = listOf(
+        RelaterteRinasaker(
+            relaterteRinasakerId = uuid1,
+            beskrivelse = "Første gruppe",
+            opprettetDato = offsetDateTime,
+            rinasakIdList = listOf("a", "b"),
+        ),
+    )
 )

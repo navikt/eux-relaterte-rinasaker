@@ -1,9 +1,9 @@
 package no.nav.eux.relaterte.rinasaker.webapp.model
 
-import java.util.*
+import java.util.UUID
 
-class RelaterteRinasakerOppdatering(
+data class RelaterteRinasakerOppdatering(
     val relaterteRinasakerId: UUID,
-    val beskrivelse: String = "En oppdatering",
-    val rinasakIdList: List<String>? = null
+    val beskrivelse: String? = null,
+    val rinasakIdList: List<String>? = null,
 )
