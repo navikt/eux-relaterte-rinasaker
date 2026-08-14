@@ -29,6 +29,7 @@
         <maven.compiler.source>25</maven.compiler.source>
         <maven.compiler.target>25</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <kotlin.version>2.4.10</kotlin.version>
         <tomcat.version>11.0.24</tomcat.version>
         <postgresql.version>42.7.13</postgresql.version>
     </properties>
