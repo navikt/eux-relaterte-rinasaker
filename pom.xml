@@ -26,8 +26,6 @@
     </modules>
 
     <properties>
-        <maven.compiler.source>25</maven.compiler.source>
-        <maven.compiler.target>25</maven.compiler.target>
         <tomcat.version>11.0.24</tomcat.version>
         <netty.version>4.2.16.Final</netty.version>
     </properties>
