@@ -10,7 +10,7 @@ for å knytte og navigere mellom relaterte saker.
 
 #### Avhengigheter
 
-* JDK 21
+* JDK 25
 
 #### Kjøring av tester lokalt
 
